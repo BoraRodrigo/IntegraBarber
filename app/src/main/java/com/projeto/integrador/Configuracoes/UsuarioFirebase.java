@@ -56,13 +56,13 @@ public class UsuarioFirebase{
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     Cliente cliente =dataSnapshot.getValue(Cliente.class);
 
-                    String tipoCliente=cliente.getTipo();
+//                    String tipoCliente=cliente.getTipo();
 
-                    if(tipoCliente.equals("C")){//Verefica se é barbeiro ou cliente e redireciona a tela
+  //                  if(tipoCliente.equals("C")){//Verefica se é barbeiro ou cliente e redireciona a tela
                         activity.startActivity(new Intent(activity, MapsActivity.class));
-                    }else{
-                        activity.startActivity(new Intent(activity, CadastroBarbeariaActivity.class));
-                    }
+    //                }else{
+        //                activity.startActivity(new Intent(activity, CadastroBarbeariaActivity.class));
+      //              }
                 }
 
                 @Override
