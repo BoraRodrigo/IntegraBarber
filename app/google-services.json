@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "703540326576",
+    "firebase_url": "https://barber-six.firebaseio.com",
+    "project_id": "barber-six",
+    "storage_bucket": "barber-six.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:703540326576:android:6055b9fa6cad1a64",
+        "android_client_info": {
+          "package_name": "com.projeto.integrador"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "703540326576-e5ac3s0fqlq6hp5qv28794mg6ru6eqpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.projeto.integrador",
+            "certificate_hash": "af6d6ca9f0a79fc37356c704724e285502bc74da"
+          }
+        },
+        {
+          "client_id": "703540326576-ledd8pmp9955asupguskrt1l6nh0ke9c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6Iuj1QSsatOIs8YFpjiAqR9j8aVHFuvA"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "703540326576-ledd8pmp9955asupguskrt1l6nh0ke9c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
