@@ -101,6 +101,7 @@ public class CadastroActivity extends AppCompatActivity{
                     }
                 }else {//Trata execesões do firebase se caso não realizar cadastro
                     String exececao = "";
+                    ///teste
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {

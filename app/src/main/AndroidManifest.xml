@@ -60,5 +60,4 @@
             android:parentActivityName=".Activity.MainActivity" />
         <activity android:name=".Activity.CadastroBarbeariaActivity" />
     </application>
-
 </manifest>
