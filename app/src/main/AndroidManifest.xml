@@ -45,19 +45,21 @@
         -->
         <meta-data
             android:name="com.google.android.geo.API_KEY"
-            android:value="@string/google_maps_key" />
+            android:value=" AIzaSyBXapzMAwzZAlSJOUK5mnjNRgwDEWv6X-Q" />
 
-        <activity
-            android:name=".Activity.MapsActivity"
-            android:label="@string/title_activity_maps" />
-        <activity
-            android:name=".Activity.LoginActivity"
-            android:label="@string/titulo_Login"
-            android:parentActivityName=".Activity.MainActivity" />
-        <activity
-            android:name=".Activity.CadastroActivity"
-            android:label="@string/titulo_Cadastro"
-            android:parentActivityName=".Activity.MainActivity" />
-        <activity android:name=".Activity.CadastroBarbeariaActivity" />
-    </application>
+        <!--   android:value="@string/google_maps_key" />  -->
+
+       <activity
+           android:name=".Activity.MapsActivity"
+           android:label="@string/title_activity_maps" />
+       <activity
+           android:name=".Activity.LoginActivity"
+           android:label="@string/titulo_Login"
+           android:parentActivityName=".Activity.MainActivity" />
+       <activity
+           android:name=".Activity.CadastroActivity"
+           android:label="@string/titulo_Cadastro"
+           android:parentActivityName=".Activity.MainActivity" />
+       <activity android:name=".Activity.CadastroBarbeariaActivity" />
+   </application>
 </manifest>
