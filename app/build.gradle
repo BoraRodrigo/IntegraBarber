@@ -9,8 +9,8 @@ android {
 
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 6//Alterando a versão para atualizar google play
-        versionName "1.32"
+        versionCode 9//Alterando a versão para atualizar google play
+        versionName "1.35"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     lintOptions {//Adiconado Para erro de APK vereficar depois se está ok
