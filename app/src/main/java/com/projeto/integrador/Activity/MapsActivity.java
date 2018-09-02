@@ -1,13 +1,18 @@
 package com.projeto.integrador.Activity;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
+import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.projeto.integrador.R;
 
@@ -38,9 +43,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
+
+        if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){ // Se a permissão foi autorizada
+            // Localização autorizada
+            mMap.setMyLocationEnabled(true); //Localização atual do dispositivo
+            //map.setTrafficEnabled(true); //Informações de tráfego
+        }
+
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+
+        LatLng unifacear = new LatLng(-25.538583, -49.362758);//-25.5385781,-49.3649467,17
+        mMap.addMarker(new MarkerOptions().position(unifacear).title("UNIFACEAR"));
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(unifacear));
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Toast.makeText(getApplicationContext(),"Você clicou em "+marker.getTitle(), Toast.LENGTH_LONG).show();
+                return false;
+            }
+        });
     }
 }
