@@ -44,6 +44,18 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
+        mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);//Altera o tipo de mapa neste caso satelite
+
+        mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {//Adiciona marcador onde usuario Clicar, este evento é de clique curto pode adicionar um de clique long.
+            @Override
+            public void onMapClick(LatLng latLng) {
+               Double latitude= latLng.latitude;//recupera a latiude e a longitude onde o cara cliclou no caso podemos usar para salvar locais no firebase
+                Double longitude=latLng.longitude;
+                mMap.addMarker(new MarkerOptions().position(latLng).title("Local"));
+            }
+        });
+
+
         if(ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){ // Se a permissão foi autorizada
             // Localização autorizada
             mMap.setMyLocationEnabled(true); //Localização atual do dispositivo
@@ -53,7 +65,7 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         // Add a marker in Sydney and move the camera
         LatLng sydney = new LatLng(-34, 151);
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,16));//Este numero é o zoom que carrega o mapa
 
         LatLng unifacear = new LatLng(-25.538583, -49.362758);//-25.5385781,-49.3649467,17
         mMap.addMarker(new MarkerOptions().position(unifacear).title("UNIFACEAR"));
