@@ -23,7 +23,6 @@ public class UsuarioFirebase{
         FirebaseAuth usuario =ConfiguracaoFirebase.getAutenticacao();
         return usuario.getCurrentUser();
     }
-
     public static boolean atualizarNomeUsuario(String nome){
         try {
             FirebaseUser user =getUsuarioAtual();
@@ -41,10 +40,8 @@ public class UsuarioFirebase{
             e.printStackTrace();
             return false;
         }
-
     }
     public  static  void redirecionaUsuarioLogado(final Activity activity){//passa a activy como parametro
-
         FirebaseUser user = getUsuarioAtual();//verefica se usuario já não esta logado
         if(user!=null){
             DatabaseReference usuReference= ConfiguracaoFirebase.getDatabaseReference()
@@ -63,15 +60,12 @@ public class UsuarioFirebase{
                         activity.startActivity(new Intent(activity, CadastroBarbeariaActivity.class));
                    }
                 }
-
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
                 }
             });
-
         }
-
     }
     public static String getIdentificadoUsuario(){
         return  getUsuarioAtual().getUid();//retorna o Id logado
