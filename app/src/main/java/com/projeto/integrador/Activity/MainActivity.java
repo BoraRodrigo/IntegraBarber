@@ -5,11 +5,18 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
@@ -31,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-        getSupportActionBar().hide();//Esconde a action bar barrinha
 
         //Validar permissões
         PermissoesMaps.validarPermissoes(permissoes, this, 1);
@@ -44,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void  abrirTelaCadastro(View view){
             startActivities(new Intent[]{new Intent(this, CadastroActivity.class)});
-}
+    }
 
 
     public void  abrirTelaLogin(View view){
@@ -82,5 +88,12 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
+
+
     }
+
+
+
+
+
 }

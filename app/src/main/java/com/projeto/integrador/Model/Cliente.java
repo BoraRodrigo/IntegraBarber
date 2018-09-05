@@ -27,14 +27,13 @@ public class Cliente {
         DatabaseReference fireReference= ConfiguracaoFirebase.getDatabaseReference();
         DatabaseReference usuario =fireReference.child("clientes").child(getId());
 
-        usuario.setValue(this);//Salva Dados banc
+        usuario.setValue(this);//Salva Dados banco
+        //.push();Adiciona um Id De incrremente
     }
 
     public String getId() {
         return id;
     }
-
-
 
     public void setId(String id) {
         this.id = id;

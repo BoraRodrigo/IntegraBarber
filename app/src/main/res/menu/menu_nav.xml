@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item android:id="@+id/menuSair"
+          android:title="Sair"
+          app:showAsAction="never"
+     />
+        <group>
+            <item
+                android:id="@+id/nav_item_one"
+                android:icon="@android:drawable/ic_menu_add"
+                android:title="Alterar Dados" />
+            <item android:id="@+id/nav_item_two"
+                android:icon="@android:drawable/ic_menu_agenda"
+                android:title="Minha agenda" />
+            <item android:id="@+id/nav_item_three"
+                android:icon="@android:drawable/ic_menu_call"
+                android:title="Historico" />
+        </group>
+        <group android:id="@+id/group_menu">
+            <item android:id="@+id/nav_item_four"
+                android:title="Faceebook" />
+            <item android:id="@+id/nav_item_five"
+                android:title="Ajuda" />
+        </group>
+        <item android:title="Configurações">
+            <menu>
+                <item android:id="@+id/nav_item_six"
+                    android:icon="@android:drawable/ic_menu_camera"
+                    android:title="Sair" />
+                <item android:id="@+id/nav_item_seven"
+                    android:icon="@android:drawable/ic_menu_compass"
+                    android:title="Novo" />
+            </menu>
+        </item>
+    </menu>

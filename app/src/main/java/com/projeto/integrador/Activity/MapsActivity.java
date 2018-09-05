@@ -1,17 +1,14 @@
 package com.projeto.integrador.Activity;
 
 import android.Manifest;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.pm.PackageManager;
-import android.support.v4.app.FragmentActivity;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -22,11 +19,10 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
-import com.projeto.integrador.Configuracoes.PermissoesMaps;
 import com.projeto.integrador.R;
 
-public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
-                                  /// Esta Classe estendia de "FragmentActivity" ai para Adiconar uma Action bar mudei para AppCompa
+public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
+                                  ///   AppCompatActivity Esta Classe estendia de "FragmentActivity" ai para Adiconar uma Action bar mudei para AppCompa
 
     private GoogleMap mMap;
 
@@ -99,7 +95,7 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     //Configurando menu de sair adiconado evento a ele este menu é criado na pasta menu e instaciaodo aqui
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-       getMenuInflater().inflate(R.menu.menu_maps,menu);
+       getMenuInflater().inflate(R.menu.menu_nav,menu);
        return true;
     }
 

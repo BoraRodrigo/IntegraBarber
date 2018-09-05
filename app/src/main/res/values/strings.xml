@@ -33,4 +33,9 @@
 
     <string name="google_maps_key">AIzaSyBXapzMAwzZAlSJOUK5mnjNRgwDEWv6X-Q</string>
     <string name="title_activity_inicial__cliente">Inicial_ClienteActivity</string>
+    <string name="title_activity_cliente__inicial">Cliente_Inicial</string>
+    <string name="title_activity_navigation">NavigationActivity</string>
+
+    <string name="open_drawer">Abrir</string>
+    <string name="close_drawer">Fechar</string>
 </resources>
