@@ -1,5 +1,6 @@
 package com.projeto.integrador.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -56,7 +57,7 @@ public class LoginActivity extends AppCompatActivity {
         }
 
     }
-    public void logarCliente(String email, String senha){//Cliente cliente // Teste
+    public void logarCliente(String email, String senha){//Cliente cliente
         autenticacao= ConfiguracaoFirebase.getAutenticacao();
         autenticacao.signInWithEmailAndPassword(
                 email, senha
@@ -86,4 +87,9 @@ public class LoginActivity extends AppCompatActivity {
         });
 
     }
+
+    public void chama(View view){
+        startActivities(new Intent[]{new Intent(this, InicialClienteActivity.class)});
+    }
+
 }
