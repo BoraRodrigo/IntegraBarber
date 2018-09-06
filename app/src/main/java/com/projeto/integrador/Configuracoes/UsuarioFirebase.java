@@ -2,7 +2,9 @@ package com.projeto.integrador.Configuracoes;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -15,14 +17,27 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.projeto.integrador.Activity.CadastroBarbeariaActivity;
 import com.projeto.integrador.Activity.MapsActivity;
+import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
+import com.projeto.integrador.Model.Barbeiro;
+import com.projeto.integrador.Model.Cliente;
+
+//import barbearia.integradorvi.com.br.integradorbarber.Activity.CadastroBarbeariaActivity;
+//import barbearia.integradorvi.com.br.integradorbarber.Activity.MapsActivity;
+//import barbearia.integradorvi.com.br.integradorbarber.Model.Barbeiro;
+//import barbearia.integradorvi.com.br.integradorbarber.Model.Cliente;
+import com.projeto.integrador.Activity.CadastroBarbeariaActivity;
+import com.projeto.integrador.Activity.MapsActivity;
 import com.projeto.integrador.Model.Cliente;
 
 public class UsuarioFirebase{
 
+    static Boolean clienteLogado = false;
+
     public static FirebaseUser getUsuarioAtual(){
-        FirebaseAuth usuario =ConfiguracaoFirebase.getAutenticacao();
+        FirebaseAuth usuario = ConfiguracaoFirebase.getAutenticacao();
         return usuario.getCurrentUser();
     }
+
     public static boolean atualizarNomeUsuario(String nome){
         try {
             FirebaseUser user =getUsuarioAtual();
@@ -40,26 +55,89 @@ public class UsuarioFirebase{
             e.printStackTrace();
             return false;
         }
+
     }
     public  static  void redirecionaUsuarioLogado(final Activity activity){//passa a activy como parametro
-        FirebaseUser user = getUsuarioAtual();//verefica se usuario já não esta logado
+        final FirebaseUser user = getUsuarioAtual();//verefica se usuario já não esta logado
         if(user!=null){
-            DatabaseReference usuReference= ConfiguracaoFirebase.getDatabaseReference()
-                    .child("clientes")
-                    .child(getIdentificadoUsuario());//pega o id logado
+            final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();
+            //.child("clientes")//barbeiro
+            //.child(getIdentificadoUsuario());//pega o id logado
+
+            usuReference.child("clientes").addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        Cliente c = postSnapshot.getValue(Cliente.class);
+                        //Log.e("Lista", c.getEmail());
+                        //Log.e("User", user.getEmail());
+
+                        if(user.getEmail().equals(c.getEmail())){
+                            clienteLogado = true;;
+                            Log.e("xablau","é cliente");
+                            testeLocaco(usuReference, activity);
+                            break;
+                        }
+                    }
+                    if(!clienteLogado){
+                        clienteLogado = false;
+                        testeLocaco(usuReference, activity);
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+
+        }
+    }
+
+    public static void testeLocaco(DatabaseReference usuReference, final Activity activity){
+        if(clienteLogado != null){
+            if(clienteLogado == true){
+                usuReference = ConfiguracaoFirebase.getDatabaseReference().child("clientes").child(getIdentificadoUsuario());//pega o id logado
+                Log.e("xablau2","é cliente2");
+            }
+            else if(clienteLogado == false){
+                usuReference = ConfiguracaoFirebase.getDatabaseReference().child("barbeiro").child(getIdentificadoUsuario());//pega o id logado
+                Log.e("xablau2","é barbeiro2");
+            }
+
+            //clienteLogado = null;
 
             usuReference.addListenerForSingleValueEvent(new ValueEventListener() {
                 @Override
-                public void onDataChange(DataSnapshot dataSnapshot) { Cliente cliente =dataSnapshot.getValue(Cliente.class);
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    Cliente cliente =dataSnapshot.getValue(Cliente.class);
+                    Barbeiro barbeiro = dataSnapshot.getValue(Barbeiro.class);
 
-                   String tipoCliente=cliente.getTipo();
+                    String tipoCliente = "";
+
+                    if(cliente != null){// Teste
+                        tipoCliente=cliente.getTipo();
+                    }
+                    else if(barbeiro != null){
+                        Log.e("bora","bora");
+                        tipoCliente=barbeiro.getTipo();
+                    }
 
                     if(tipoCliente.equals("C")){//Verefica se é barbeiro ou cliente e redireciona a tela
                         activity.startActivity(new Intent(activity, MapsActivity.class));
-                 }else{
+                    }
+                    else if(tipoCliente.equals("B")){
                         activity.startActivity(new Intent(activity, CadastroBarbeariaActivity.class));
-                   }
+
+                        Intent intent = new Intent(activity, CadastroBarbeariaActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("barbeiro", barbeiro);
+                        intent.putExtras(bundle);
+
+                        activity.startActivity(intent);
+                    }
                 }
+
                 @Override
                 public void onCancelled(DatabaseError databaseError) {
 
@@ -67,6 +145,7 @@ public class UsuarioFirebase{
             });
         }
     }
+
     public static String getIdentificadoUsuario(){
         return  getUsuarioAtual().getUid();//retorna o Id logado
     }

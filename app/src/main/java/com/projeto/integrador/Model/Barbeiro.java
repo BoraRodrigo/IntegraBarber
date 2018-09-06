@@ -4,7 +4,9 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.Exclude;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 
-public class Barbeiro {
+import java.io.Serializable;
+
+public class Barbeiro implements Serializable {
     private String id;
     private String nome;
     private String email;
