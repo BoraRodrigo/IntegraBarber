@@ -1,10 +1,11 @@
 package com.projeto.integrador.Activity;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Switch;
 import android.widget.Toast;
@@ -16,11 +17,17 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 import com.google.firebase.auth.FirebaseAuthWeakPasswordException;
+
+//import barbearia.integradorvi.com.br.integradorbarber.Configuracoes.ConfiguracaoFirebase;
+//import barbearia.integradorvi.com.br.integradorbarber.Configuracoes.UsuarioFirebase;
+//import barbearia.integradorvi.com.br.integradorbarber.Model.Barbeiro;
+//import barbearia.integradorvi.com.br.integradorbarber.Model.Cliente;
+//import barbearia.integradorvi.com.br.integradorbarber.R;
+
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
+import com.projeto.integrador.Model.Barbeiro;
 import com.projeto.integrador.Model.Cliente;
-
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
-
 import com.projeto.integrador.R;
 
 public class CadastroActivity extends AppCompatActivity{
@@ -56,7 +63,22 @@ public class CadastroActivity extends AppCompatActivity{
                     cliente.setSenha(senha);
                     cliente.setTipo(tipo_Cadastro());
 
-                    cadastrarUsuario(cliente);
+                    //Teste - 02/09/2018
+                    if(cliente.getTipo().equals("C")){
+                        cadastrarUsuario(cliente, null);
+                    }
+                    else if(cliente.getTipo().equals("B")){
+                        Barbeiro barbeiro = new Barbeiro();
+                        barbeiro.setNome(nome);
+                        barbeiro.setEmail(email);
+                        barbeiro.setSenha(senha);
+                        barbeiro.setTipo(tipo_Cadastro());
+
+                        cadastrarUsuario(null, barbeiro);
+                    }
+                    // acabou teste - 02/09/2018
+
+                    //cadastrarUsuario(cliente); Esse tava antes
 
                 } else {
                     Toast.makeText(CadastroActivity.this, "Preencha A Senha", Toast.LENGTH_SHORT).show();
@@ -74,34 +96,78 @@ public class CadastroActivity extends AppCompatActivity{
 
     }
 
-    public void cadastrarUsuario(final Cliente cliente){
+    public void cadastrarUsuario(final Cliente cliente, final Barbeiro barbeiro){// Colocado barbeiro
         autenticacao= ConfiguracaoFirebase.getAutenticacao();
-        autenticacao.createUserWithEmailAndPassword(
-                cliente.getEmail(),
-                cliente.getSenha()
+
+        //Teste
+        String email = "";
+        String senha = "";
+
+        if(barbeiro == null){
+            email = cliente.getEmail();
+            senha = cliente.getSenha();
+        }
+        else{
+            email = barbeiro.getEmail();
+            senha = barbeiro.getSenha();
+        }
+        //Fim Teste
+        autenticacao.getUid();
+
+        autenticacao.createUserWithEmailAndPassword( //Teste aqui
+                email,
+                senha
         ).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
-                   String idCliente= task.getResult().getUser().getUid();
-                   cliente.setId(idCliente);
+                    // Teste
+                    if(cliente != null){
+                        String idCliente= task.getResult().getUser().getUid();
+                        cliente.setId(idCliente);
 
-                   cliente.Salvar();
+                        cliente.Salvar();
 
-                   ////Atualizar Nome no UserProfile no perfil
-                    UsuarioFirebase.atualizarNomeUsuario(cliente.getNome());
+                        UsuarioFirebase.atualizarNomeUsuario(cliente.getNome());
 
-                   if(cliente.getTipo().equals("C")){//Se o usuario Cadastrado for Cliente Redicrecions spos o Cadastro
+                        startActivities(new Intent[]{new Intent(CadastroActivity.this, LoginActivity.class)});
+                        finish();
+                    }
+                    else{
+                        String idBarbeiro= task.getResult().getUser().getUid();
+                        barbeiro.setId(idBarbeiro);
+
+                        Log.e("Teste do id - getUid", autenticacao.getUid());
+
+                        //barbeiro.Salvar();
+
+                        UsuarioFirebase.atualizarNomeUsuario(barbeiro.getNome());
+
+                        startActivities(new Intent[]{new Intent(CadastroActivity.this, CadastroBarbeariaActivity.class)});
+
+                        Intent intent = new Intent(CadastroActivity.this, CadastroBarbeariaActivity.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putSerializable("barbeiro", barbeiro);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
+
+                        finish();
+                    }
+                    //Fim Teste
+
+                    ////Atualizar Nome no UserProfile no perfil
+                    //UsuarioFirebase.atualizarNomeUsuario(cliente.getNome()); POR CAUSA DO TESTE
+
+                   /*if(cliente != null){//TESTE //cliente.getTipo().equals("C")  //Se o usuario Cadastrado for Cliente Redicrecions spos o Cadastro
                         startActivities(new Intent[]{new Intent(CadastroActivity.this, LoginActivity.class)});
                         finish();
                    }
-                    if(cliente.getTipo().equals("B")){//Se o usuario Cadastrado for Cliente Redicrecions spos o Cadastro
-                        startActivities(new Intent[]{new Intent(CadastroActivity.this, CadastroBarbeariaActivity.class)});
-                        finish();
-                    }
+                   else if(cliente.getTipo().equals("B")){//Se o usuario Cadastrado for Cliente Redicrecions spos o Cadastro
+                       startActivities(new Intent[]{new Intent(CadastroActivity.this, CadastroBarbeariaActivity.class)});
+                       finish();
+                   }*/
                 }else {//Trata execesões do firebase se caso não realizar cadastro
                     String exececao = "";
-                    ///teste
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
