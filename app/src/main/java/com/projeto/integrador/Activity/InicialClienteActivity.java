@@ -1,5 +1,6 @@
 package com.projeto.integrador.Activity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -44,11 +45,11 @@ public class InicialClienteActivity extends AppCompatActivity implements Navigat
 
                 //tentativa de carregar o maps Dentro do fragmento sem sucesso
                 Fragment fragmento = null;
-                Class fragmentClass = null;
+                Class fragmentClass =  fragmentClass=MapsActivity.class;;
 
-                fragmentClass=MapsActivity.class;
+
                 try {
-                    fragmento = (Fragment) fragmentClass.newInstance();
+                    fragmento = (Fragment)  fragmentClass.newInstance();
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InstantiationException e) {
@@ -61,7 +62,8 @@ public class InicialClienteActivity extends AppCompatActivity implements Navigat
                 break;
             }
             case R.id.nav_item_two: {
-                Toast.makeText(this, "Menu 2", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getApplicationContext(), MapsActivity.class);//chama a proxima tela de mapa
+                startActivity(intent);
                 break;
             }
             case R.id.nav_item_three: {
@@ -90,4 +92,6 @@ public class InicialClienteActivity extends AppCompatActivity implements Navigat
             super.onBackPressed();
         }
     }
+
+
 }

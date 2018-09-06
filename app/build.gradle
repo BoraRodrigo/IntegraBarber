@@ -3,14 +3,14 @@ apply plugin: 'com.android.application'
 android {
     compileSdkVersion 28
     defaultConfig {
-     //   applicationId "unifacear.integrador.barbearia.integrabarber"
-      applicationId "com.projeto.integrador"
+        //   applicationId "unifacear.integrador.barbearia.integrabarber"
+        applicationId "com.projeto.integrador"
 
 
         minSdkVersion 16
         targetSdkVersion 28
-        versionCode 9//Alterando a versão para atualizar google play
-        versionName "1.35"
+        versionCode 10//Alterando a versão para atualizar google play
+        versionName "1.37"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     lintOptions {//Adiconado Para erro de APK vereficar depois se está ok
@@ -31,6 +31,8 @@ dependencies {
     //implementation 'com.android.support:appcompat-v7:28.0.0-rc01'
 
     implementation 'com.android.support:appcompat-v7:27.1.1'
+
+
 
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
