@@ -16,15 +16,11 @@ import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
+import com.projeto.integrador.R;
 
 //import barbearia.integradorvi.com.br.integradorbarber.Configuracoes.ConfiguracaoFirebase;
 //import barbearia.integradorvi.com.br.integradorbarber.Configuracoes.UsuarioFirebase;
 //import barbearia.integradorvi.com.br.integradorbarber.R;
-
-import com.projeto.integrador.Configuracoes.UsuarioFirebase;
-import com.projeto.integrador.Model.Cliente;
-import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
-import com.projeto.integrador.R;
 
 public class LoginActivity extends AppCompatActivity {
 

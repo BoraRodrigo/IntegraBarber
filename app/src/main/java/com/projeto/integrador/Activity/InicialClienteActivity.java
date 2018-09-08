@@ -1,12 +1,13 @@
 package com.projeto.integrador.Activity;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.widget.DrawerLayout;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,7 +16,9 @@ import android.widget.Toast;
 
 import com.projeto.integrador.R;
 
-public class InicialClienteActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class InicialClienteActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener,
+        LoginFragment.OnFragmentInteractionListener{
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -35,30 +38,23 @@ public class InicialClienteActivity extends AppCompatActivity implements Navigat
 
         navigationView = (NavigationView) findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
+
+        getSupportFragmentManager().beginTransaction().replace(R.id.conteudo_dos_fragmentos, new LoginFragment()).commit();
+        navigationView.setCheckedItem(R.id.nav_item_one);
     }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+        Fragment fragmento = null; //Mudei os dois de lugar
+        Class fragmentClass = null;
+
         switch (menuItem.getItemId()) {
             case R.id.nav_item_one: {
-
                 //tentativa de carregar o maps Dentro do fragmento sem sucesso
-                Fragment fragmento = null;
-                Class fragmentClass = null;
-
-                fragmentClass=MapsActivity.class;
-                try {
-                    fragmento = (Fragment) fragmentClass.newInstance();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                } catch (InstantiationException e) {
-                    e.printStackTrace();
-                }
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.conteudo_dos_Fragmentos, fragmento).commit();
-
+                fragmentClass=LoginFragment.class; //MapsActivity
                 Toast.makeText(this, "Menu 1", Toast.LENGTH_SHORT).show();
-                break;
+                //break;
             }
             case R.id.nav_item_two: {
                 Toast.makeText(this, "Menu 2", Toast.LENGTH_SHORT).show();
@@ -77,6 +73,19 @@ public class InicialClienteActivity extends AppCompatActivity implements Navigat
                 break;
             }
         }
+
+        //Mudei de lugar também
+        try {
+            fragmento = (Fragment) fragmentClass.newInstance();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+        }
+
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.conteudo_dos_fragmentos, fragmento).commit();
+
         drawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
@@ -89,5 +98,10 @@ public class InicialClienteActivity extends AppCompatActivity implements Navigat
         } else {
             super.onBackPressed();
         }
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
