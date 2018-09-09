@@ -1,5 +1,6 @@
 package com.projeto.integrador.Activity;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -15,7 +16,12 @@ import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.projeto.integrador.Configuracoes.UsuarioFirebase;
 import com.projeto.integrador.R;
+
+
 
 public class InicialClienteActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -25,6 +31,9 @@ public class InicialClienteActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
+
+
 
 
 
@@ -62,6 +71,14 @@ public class InicialClienteActivity extends AppCompatActivity
                 Toast.makeText(this, "Menu 1", Toast.LENGTH_SHORT).show();
                 //break;
             }
+            case R.id.menuSair:{
+
+                FirebaseAuth.getInstance().signOut();
+                finish();
+                startActivities(new Intent[]{new Intent(this, LoginActivity.class)});
+
+            }
+
             case R.id.nav_item_two: {
                 Toast.makeText(this, "Menu 2", Toast.LENGTH_SHORT).show();
                 break;
