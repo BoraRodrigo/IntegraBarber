@@ -18,7 +18,8 @@ import com.projeto.integrador.R;
 
 public class InicialClienteActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        LoginFragment.OnFragmentInteractionListener{
+        LoginFragment.OnFragmentInteractionListener,
+        MapsFragment.OnFragmentInteractionListener{
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -52,7 +53,7 @@ public class InicialClienteActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.nav_item_one: {
                 //tentativa de carregar o maps Dentro do fragmento sem sucesso
-                fragmentClass=LoginFragment.class; //MapsActivity
+                fragmentClass=MapsFragment.class;
                 Toast.makeText(this, "Menu 1", Toast.LENGTH_SHORT).show();
                 //break;
             }
