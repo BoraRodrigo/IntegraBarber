@@ -20,7 +20,7 @@
         android:src="@mipmap/logo" />
 
     <TextView
-        android:id="@+id/nav_header_textView"
+        android:id="@+id/txt_Nome_Login"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="16dp"

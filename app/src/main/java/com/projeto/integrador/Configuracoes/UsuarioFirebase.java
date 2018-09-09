@@ -5,6 +5,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
+import android.view.View;
+import android.widget.ProgressBar;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -16,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.projeto.integrador.Activity.CadastroBarbeariaActivity;
+import com.projeto.integrador.Activity.InicialClienteActivity;
 import com.projeto.integrador.Activity.MapsActivity;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Model.Barbeiro;
@@ -32,6 +35,8 @@ import com.projeto.integrador.Model.Cliente;
 public class UsuarioFirebase{
 
     static Boolean clienteLogado = false;
+
+
 
     public static FirebaseUser getUsuarioAtual(){
         FirebaseAuth usuario = ConfiguracaoFirebase.getAutenticacao();
@@ -58,6 +63,8 @@ public class UsuarioFirebase{
 
     }
     public  static  void redirecionaUsuarioLogado(final Activity activity){//passa a activy como parametro
+
+
         final FirebaseUser user = getUsuarioAtual();//verefica se usuario já não esta logado
         if(user!=null){
             final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();
@@ -124,7 +131,7 @@ public class UsuarioFirebase{
                     }
 
                     if(tipoCliente.equals("C")){//Verefica se é barbeiro ou cliente e redireciona a tela
-                        activity.startActivity(new Intent(activity, MapsActivity.class));
+                        activity.startActivity(new Intent(activity, InicialClienteActivity.class));
                     }
                     else if(tipoCliente.equals("B")){
                         activity.startActivity(new Intent(activity, CadastroBarbeariaActivity.class));

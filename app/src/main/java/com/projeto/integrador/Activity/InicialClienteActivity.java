@@ -12,6 +12,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.projeto.integrador.R;
@@ -24,6 +25,9 @@ public class InicialClienteActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,9 +44,10 @@ public class InicialClienteActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
 
-        getSupportFragmentManager().beginTransaction().replace(R.id.conteudo_dos_fragmentos, new LoginFragment()).commit();
+        getSupportFragmentManager().beginTransaction().replace(R.id.conteudo_dos_Fragmentos, new MapsFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_item_one);
-    }
+
+        }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
@@ -76,19 +81,22 @@ public class InicialClienteActivity extends AppCompatActivity
         }
 
         //Mudei de lugar também
-        try {
-            fragmento = (Fragment) fragmentClass.newInstance();
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InstantiationException e) {
-            e.printStackTrace();
+        if(fragmentClass!=null) {
+            try {
+                fragmento = (Fragment) fragmentClass.newInstance();
+            } catch (IllegalAccessException e) {
+                e.printStackTrace();
+            } catch (InstantiationException e) {
+                e.printStackTrace();
+            }
+
+            FragmentManager fragmentManager = getSupportFragmentManager();
+            fragmentManager.beginTransaction().replace(R.id.conteudo_dos_Fragmentos, fragmento).commit();
+
+            drawerLayout.closeDrawer(GravityCompat.START);
+            return true;
         }
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.conteudo_dos_fragmentos, fragmento).commit();
-
-        drawerLayout.closeDrawer(GravityCompat.START);
-        return true;
+        return false;
     }
 
 
