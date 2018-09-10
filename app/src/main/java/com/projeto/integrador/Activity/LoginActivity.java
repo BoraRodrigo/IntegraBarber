@@ -1,6 +1,8 @@
 package com.projeto.integrador.Activity;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
@@ -45,6 +47,10 @@ public class LoginActivity extends AppCompatActivity {
         String senha = txtSenha.getText().toString();
         progressBarLogin.setVisibility(View.VISIBLE);
 
+       ///Muda a Cor da Progres Bar que de padrão vem vermelha
+        progressBarLogin.getIndeterminateDrawable()
+                .setColorFilter(Color.GREEN, PorterDuff.Mode.SRC_IN);
+
         if(!email.isEmpty()){
             if(!senha.isEmpty()){
                 logarCliente(email, senha);
@@ -68,8 +74,9 @@ public class LoginActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     //Vereficar tipo de usuario logado Barbeiro Ou Cliente
+                    txtEmail.setEnabled(false);
+                    txtSenha.setEnabled(false);
                     UsuarioFirebase.redirecionaUsuarioLogado(LoginActivity.this);//passa a activy como parametro
-                    progressBarLogin.setVisibility(View.GONE);
 
                 }else{
                     String exececao = "";
