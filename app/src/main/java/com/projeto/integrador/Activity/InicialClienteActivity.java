@@ -26,7 +26,8 @@ import com.projeto.integrador.R;
 public class InicialClienteActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoginFragment.OnFragmentInteractionListener,
-        MapsFragment.OnFragmentInteractionListener{
+        MapsFragment.OnFragmentInteractionListener,
+        AlterarFragment.OnFragmentInteractionListener{
 
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
@@ -67,16 +68,16 @@ public class InicialClienteActivity extends AppCompatActivity
         switch (menuItem.getItemId()) {
             case R.id.nav_item_one: {
                 //tentativa de carregar o maps Dentro do fragmento sem sucesso
-                fragmentClass=MapsFragment.class;
+                fragmentClass= AlterarFragment.class; //MapsFragment.class;
                 Toast.makeText(this, "Menu 1", Toast.LENGTH_SHORT).show();
-                //break;
+                break;
             }
             case R.id.menuSair:{
-
                 FirebaseAuth.getInstance().signOut();
                 finish();
+                Toast.makeText(this, "Usuário deslogado", Toast.LENGTH_SHORT).show();
                 startActivities(new Intent[]{new Intent(this, LoginActivity.class)});
-
+                break;
             }
 
             case R.id.nav_item_two: {

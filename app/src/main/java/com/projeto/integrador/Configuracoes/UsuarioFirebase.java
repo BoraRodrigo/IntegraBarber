@@ -64,27 +64,21 @@ public class UsuarioFirebase{
     }
     public  static  void redirecionaUsuarioLogado(final Activity activity){//passa a activy como parametro
 
-
-        final FirebaseUser user = getUsuarioAtual();//verefica se usuario já não esta logado
+        final FirebaseUser user = getUsuarioAtual(); //verefica se usuario já não esta logado
         if(user!=null){
             final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();
-            //.child("clientes")//barbeiro
-            //.child(getIdentificadoUsuario());//pega o id logado
+            //.child("clientes ou barbeiro") //.child(getIdentificadoUsuario()); //pega o id logado
 
-            usuReference.child("clientes").addValueEventListener(new ValueEventListener() {
+            usuReference.child("clientes").orderByChild("email").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
                 @Override
                 public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                     for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                         Cliente c = postSnapshot.getValue(Cliente.class);
-                        //Log.e("Lista", c.getEmail());
-                        //Log.e("User", user.getEmail());
-
-                        if(user.getEmail().equals(c.getEmail())){
-                            clienteLogado = true;;
-                            Log.e("xablau","é cliente");
-                            testeLocaco(usuReference, activity);
-                            break;
-                        }
+                        //Log.e("Lista", c.getEmail()); //Log.e("User", user.getEmail());
+                        clienteLogado = true;;
+                        Log.e("xablau","é cliente");
+                        testeLocaco(usuReference, activity);
+                        break;
                     }
                     if(!clienteLogado){
                         clienteLogado = false;
@@ -97,7 +91,6 @@ public class UsuarioFirebase{
 
                 }
             });
-
         }
     }
 
@@ -126,7 +119,6 @@ public class UsuarioFirebase{
                         tipoCliente=cliente.getTipo();
                     }
                     else if(barbeiro != null){
-                        Log.e("bora","bora");
                         tipoCliente=barbeiro.getTipo();
                     }
 
