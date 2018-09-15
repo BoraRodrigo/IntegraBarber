@@ -8,11 +8,14 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="77dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/fundo"
             android:orientation="vertical">
 
             <android.support.design.widget.TextInputLayout
@@ -24,6 +27,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="20dp"
+                android:background="@drawable/label_telas_cadastro_login"
+                android:textColorHint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
@@ -32,6 +37,7 @@
                     android:id="@+id/txtNomeBarbearia"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/label_telas_cadastro_login"
                     android:hint="Nome da Barbearia"
                     android:inputType="text"
                     android:textStyle="bold" />
@@ -46,6 +52,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:textColorHint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,6 +62,7 @@
                     android:id="@+id/txtDescricao"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/label_telas_cadastro_login"
                     android:hint="Descrição"
                     android:inputType="text"
                     android:textStyle="bold" />
@@ -69,6 +77,8 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:background="@drawable/label_telas_cadastro_login"
+                android:textColorHint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
@@ -77,6 +87,7 @@
                     android:id="@+id/txtTelefone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/label_telas_cadastro_login"
                     android:hint="Telefone"
                     android:inputType="number"
                     android:textStyle="bold" />
@@ -91,6 +102,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:textColorHint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
@@ -100,6 +112,7 @@
                     android:id="@+id/txtPagina"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/label_telas_cadastro_login"
                     android:hint="Página"
                     android:inputType="text"
                     android:textStyle="bold" />
@@ -114,6 +127,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:textColorHint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout8">
@@ -128,8 +142,10 @@
                         android:layout_width="161dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="@drawable/label_telas_cadastro_login"
                         android:hint="Rua"
                         android:inputType="text"
+                        android:textColorHint="@android:color/white"
                         android:textStyle="bold" />
 
                     <android.support.design.widget.TextInputEditText
@@ -137,8 +153,10 @@
                         android:layout_width="161dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:background="@drawable/label_telas_cadastro_login"
                         android:hint="Nº"
                         android:inputType="text"
+                        android:textColorHint="@android:color/white"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -154,6 +172,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:textColorHint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
@@ -162,6 +181,7 @@
                     android:id="@+id/txtCidade"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/label_telas_cadastro_login"
                     android:hint="Cidade"
                     android:inputType="text"
                     android:textStyle="bold" />
@@ -176,6 +196,7 @@
                 android:layout_marginRight="16dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="8dp"
+                android:textColorHint="@android:color/white"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
@@ -184,29 +205,33 @@
                     android:id="@+id/txtCEP"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/label_telas_cadastro_login"
                     android:hint="CEP"
                     android:inputType="text"
                     android:textStyle="bold" />
             </android.support.design.widget.TextInputLayout>
 
-            <Button
-                android:id="@+id/button2"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="16dp"
-                android:layout_marginEnd="24dp"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginStart="24dp"
-                android:layout_marginTop="8dp"
-                android:onClick="validaCampos"
-                android:text="Cadastrar"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.5"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/txtCliente" />
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="32dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/botao_cadastrar"
+        android:onClick="validaCampos"
+        android:text="Cadastrar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.943" />
 
 </android.support.constraint.ConstraintLayout>

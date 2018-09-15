@@ -156,12 +156,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             //}
         //});
 
-        if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){ // Se a permissão foi autorizada
-            // Localização autorizada
-            mMap.setMyLocationEnabled(true); //Localização atual do dispositivo
-            //map.setTrafficEnabled(true); //Informações de tráfego
-        }
-
         LatLng unifacear = new LatLng(-25.538583, -49.362758);//-25.5385781,-49.3649467,17
         mMap.addMarker(new MarkerOptions().position(unifacear).title("UNIFACEAR"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(unifacear));
@@ -195,6 +189,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localUsuario,16));
 
                 }
+            }
+
+            if(ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED){ // Se a permissão foi autorizada
+                // Localização autorizada
+                mMap.setMyLocationEnabled(true); //Localização atual do dispositivo
+                //mMap.setTrafficEnabled(true); //Informações de tráfego
+
             }
 
         } catch (IOException e) {

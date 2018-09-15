@@ -23,7 +23,7 @@ import com.projeto.integrador.R;
 
 
 
-public class InicialClienteActivity extends AppCompatActivity
+public class InicialBarbeiroActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoginFragment.OnFragmentInteractionListener,
         MapsFragment.OnFragmentInteractionListener,
@@ -51,7 +51,8 @@ public class InicialClienteActivity extends AppCompatActivity
         getSupportFragmentManager().beginTransaction().replace(R.id.conteudo_dos_Fragmentos, new MapsFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_item_one);
 
-        }
+
+    }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
