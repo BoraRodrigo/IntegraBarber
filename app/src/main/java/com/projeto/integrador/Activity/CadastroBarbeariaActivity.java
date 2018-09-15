@@ -24,7 +24,7 @@ import com.projeto.integrador.R;
 
 public class CadastroBarbeariaActivity extends AppCompatActivity {
 
-    private TextInputEditText txtNomeBarbearia, txtDescricao, txtTelefone, txtPagina, txtRua, txtCidade, txtCEP;
+    private TextInputEditText txtNomeBarbearia, txtDescricao, txtTelefone, txtPagina, txtRua, txtCidade, txtCEP,txtnumero;
     private FirebaseAuth autenticacao;
 
     Barbeiro barbeiro;
@@ -42,6 +42,8 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
         txtRua = findViewById(R.id.txtRua);
         txtCidade = findViewById(R.id.txtCidade);
         txtCEP = findViewById(R.id.txtCEP);
+        txtnumero=findViewById(R.id.txtNumero);
+
     }
 
     public void validaCampos(View view) {
@@ -52,22 +54,29 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
                         if (!txtRua.getText().toString().isEmpty()) {
                             if (!txtCidade.getText().toString().isEmpty()) {
                                 if (!txtCEP.getText().toString().isEmpty()) {
-                                    Barbearia barbearia = new Barbearia();
-                                    barbearia.setNomebarbearia(txtNomeBarbearia.getText().toString());
-                                    barbearia.setDescricao(txtDescricao.getText().toString());
-                                    barbearia.setTelefone(txtTelefone.getText().toString());
-                                    barbearia.setPagina(txtPagina.getText().toString());
-                                    barbearia.setRua(txtRua.getText().toString());
-                                    barbearia.setCidade(txtCidade.getText().toString());
-                                    barbearia.setCep(txtCEP.getText().toString());
+                                    if (!txtnumero.getText().toString().isEmpty()) {
 
-                                    Intent intent = getIntent();
-                                    Bundle bundle = intent.getExtras();
-                                    barbeiro = (Barbeiro) bundle.getSerializable("barbeiro");
 
-                                    barbearia.setIdBarbeiro(barbeiro.getId());
+                                        Barbearia barbearia = new Barbearia();
+                                        barbearia.setNomebarbearia(txtNomeBarbearia.getText().toString());
+                                        barbearia.setDescricao(txtDescricao.getText().toString());
+                                        barbearia.setTelefone(txtTelefone.getText().toString());
+                                        barbearia.setPagina(txtPagina.getText().toString());
+                                        barbearia.setRua(txtRua.getText().toString());
+                                        barbearia.setCidade(txtCidade.getText().toString());
+                                        barbearia.setCep(txtCEP.getText().toString());
+                                        barbearia.setNumero(Integer.parseInt(txtnumero.getText().toString()));
 
-                                    cadastrarBarbearia(barbearia);
+                                        Intent intent = getIntent();
+                                        Bundle bundle = intent.getExtras();
+                                        barbeiro = (Barbeiro) bundle.getSerializable("barbeiro");
+
+                                        barbearia.setIdBarbeiro(barbeiro.getId());
+
+                                        cadastrarBarbearia(barbearia);
+                                    }else{
+                                        Toast.makeText(getApplicationContext(), "Preencha o Numero", Toast.LENGTH_SHORT).show();
+                                    }
                                 } else {
                                     Toast.makeText(getApplicationContext(), "Preencha o CEP", Toast.LENGTH_SHORT).show();
                                 }
