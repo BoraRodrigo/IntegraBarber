@@ -189,7 +189,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                     Double lat = endereco.getLatitude();
                     Double lon = endereco.getLongitude();
-                    
+
                     LatLng localUsuario = new LatLng(lat, lon);
                     mMap.addMarker(new MarkerOptions().position(localUsuario).title("Barbearia: "+barbearia.getNomebarbearia().toUpperCase() ));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(localUsuario,16));
