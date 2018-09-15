@@ -14,6 +14,7 @@ import android.widget.Button;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -42,8 +43,8 @@ public class AlterarFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private TextInputEditText txtEmail,txtNome, txtSenha;
-    private Button btnAlterar;
+    private TextInputEditText txtEmail,txtNome;
+    private Button btnAlterar, btnEnviarEmail;
     private Cliente cliente;
     private OnFragmentInteractionListener mListener;
 
@@ -86,9 +87,10 @@ public class AlterarFragment extends Fragment {
 
         txtEmail = view.findViewById(R.id.txtEmailCadastro);
         txtNome = view.findViewById(R.id.txtNomeCadastro);
-        txtSenha = view.findViewById(R.id.txtSenhacadastro);
         btnAlterar = view.findViewById(R.id.btnAlterar);
+        btnEnviarEmail = view.findViewById(R.id.btnEnviarEmail);
 
+        final FirebaseAuth autenticacao = ConfiguracaoFirebase.getAutenticacao(); // Para enviar email com redefinição de senha
         final FirebaseUser usuario = UsuarioFirebase.getUsuarioAtual();
         final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();
 
@@ -99,7 +101,6 @@ public class AlterarFragment extends Fragment {
                     cliente = postSnapshot.getValue(Cliente.class);
                     txtNome.setText(cliente.getNome());
                     txtEmail.setText(cliente.getEmail());
-                    txtSenha.setText(cliente.getSenha());
                     break;
                 }
             }
@@ -115,18 +116,6 @@ public class AlterarFragment extends Fragment {
             public void onClick(View v) {
                 cliente.setNome(txtNome.getText().toString());
                 cliente.setEmail(txtEmail.getText().toString());
-                cliente.setSenha(txtSenha.getText().toString());
-                if(!txtSenha.getText().toString().isEmpty()){
-                    cliente.setSenha(txtSenha.getText().toString());
-                    usuario.updatePassword(cliente.getSenha()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Log.e("Senha", "Galvão, diga Tino, vai mudar");
-                            }
-                        }
-                    });
-                }
                 usuario.updateEmail(cliente.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
@@ -136,6 +125,13 @@ public class AlterarFragment extends Fragment {
                     }
                 });
                 usuReference.child("clientes").child(cliente.getId()).setValue(cliente);
+            }
+        });
+
+        btnEnviarEmail.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                autenticacao.sendPasswordResetEmail(cliente.getEmail());
             }
         });
 
