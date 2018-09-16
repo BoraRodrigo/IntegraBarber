@@ -38,6 +38,8 @@ public class InicialClienteActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_inicial_cliente);
 
+
+
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         drawerLayout = (DrawerLayout) findViewById(R.id.drawerLayout);
@@ -48,13 +50,20 @@ public class InicialClienteActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
 
+
         getSupportFragmentManager().beginTransaction().replace(R.id.conteudo_dos_Fragmentos, new MapsFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_item_one);
+
+
+
+
 
         }
 
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+
+
 
         Fragment fragmento = null; //Mudei os dois de lugar
         Class fragmentClass = null;
@@ -125,4 +134,8 @@ public class InicialClienteActivity extends AppCompatActivity
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+
+
+
 }
