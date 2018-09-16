@@ -19,6 +19,7 @@
         android:background="@drawable/label_telas_cadastro_login"
         android:hint="Nome"
         android:textColorHint="@android:color/white"
+        android:theme="@style/TemaEditText"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -34,7 +35,8 @@
             android:hint="Nome"
             android:textColor="@android:color/white"
             android:textColorLink="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:theme="@style/TemaEditText" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -47,6 +49,7 @@
         android:layout_marginStart="16dp"
         android:background="@drawable/label_telas_cadastro_login"
         android:textColorHint="@android:color/white"
+        android:theme="@style/TemaEditText"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -62,7 +65,8 @@
             android:inputType="textEmailAddress"
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:theme="@style/TemaEditText" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -146,6 +150,7 @@
         android:paddingLeft="30dp"
         android:paddingRight="15dp"
         android:textColorHint="@android:color/white"
+        android:theme="@style/TemaEditText"
         app:boxBackgroundColor="@android:color/white"
         app:boxStrokeColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/switchTipoUsuario"
@@ -165,7 +170,8 @@
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white"
             android:textSize="18sp"
-            android:textStyle="bold" />
+            android:textStyle="bold"
+            android:theme="@style/TemaEditText" />
     </android.support.design.widget.TextInputLayout>
 
 </android.support.constraint.ConstraintLayout>
