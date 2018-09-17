@@ -45,5 +45,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-core:15.0.0'
     implementation 'com.google.firebase:firebase-database:15.0.0'
     implementation 'com.google.firebase:firebase-auth:15.0.0'
+    implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
+    implementation 'com.facebook.android:account-kit-sdk:4.+'
 }
 apply plugin: 'com.google.gms.google-services'
