@@ -18,6 +18,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.projeto.integrador.Activity.CadastroBarbeariaActivity;
+import com.projeto.integrador.Activity.InicialBarbeiroActivity;
 import com.projeto.integrador.Activity.InicialClienteActivity;
 import com.projeto.integrador.Activity.MapsActivity;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
@@ -128,7 +129,7 @@ public class UsuarioFirebase{
                     else if(tipoCliente.equals("B")){
                         activity.startActivity(new Intent(activity, CadastroBarbeariaActivity.class));
 
-                        Intent intent = new Intent(activity, CadastroBarbeariaActivity.class);
+                        Intent intent = new Intent(activity, InicialBarbeiroActivity.class);
                         Bundle bundle = new Bundle();
                         bundle.putSerializable("barbeiro", barbeiro);
                         intent.putExtras(bundle);

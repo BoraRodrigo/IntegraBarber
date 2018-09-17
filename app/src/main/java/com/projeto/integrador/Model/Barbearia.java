@@ -19,12 +19,21 @@ public class Barbearia implements Serializable{
     private String rua;
     private String cidade;
     private String cep;
+    private int numero ;
 
     public void Salvar(){
         DatabaseReference fireReference= ConfiguracaoFirebase.getDatabaseReference();
         DatabaseReference usuario =fireReference.child("barbearia").child(getId());
 
         usuario.setValue(this);//Salva Dados banc
+    }
+
+    public int getNumero() {
+        return numero;
+    }
+
+    public void setNumero(int numero) {
+        this.numero = numero;
     }
 
     public String getNomebarbearia() {

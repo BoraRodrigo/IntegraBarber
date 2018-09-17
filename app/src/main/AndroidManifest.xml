@@ -92,7 +92,8 @@
             android:label="@string/titulo_Cadastro"
             android:parentActivityName=".Activity.MainActivity" />
         <activity android:name=".Activity.CadastroBarbeariaActivity" />
-        <activity android:name=".Activity.InicialClienteActivity"></activity>
+        <activity android:name=".Activity.InicialClienteActivity" />
+        <activity android:name=".Activity.InicialBarbeiroActivity"></activity>
     </application>
 
 </manifest>

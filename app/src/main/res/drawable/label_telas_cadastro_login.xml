@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:textColor="@android:color/white"
+    android:textColorHint="@android:color/white"
+    android:textColorLink="@android:color/white"
+    android:textStyle="bold"
+    android:shadowColor="@android:color/white"
+    android:textColorHighlight="@android:color/white">
+
+
+</shape>
+
+
+

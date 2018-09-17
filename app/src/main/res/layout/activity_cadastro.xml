@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/fundo"
     tools:context="com.projeto.integrador.Activity.CadastroActivity">
 
 
@@ -15,7 +16,10 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
+        android:background="@drawable/label_telas_cadastro_login"
         android:hint="Nome"
+        android:textColorHint="@android:color/white"
+        android:theme="@style/TemaEditText"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -27,8 +31,12 @@
             android:id="@+id/txtNomeCadastro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/label_telas_cadastro_login"
             android:hint="Nome"
-            android:textStyle="bold" />
+            android:textColor="@android:color/white"
+            android:textColorLink="@android:color/white"
+            android:textStyle="bold"
+            android:theme="@style/TemaEditText" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
@@ -39,6 +47,9 @@
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
+        android:background="@drawable/label_telas_cadastro_login"
+        android:textColorHint="@android:color/white"
+        android:theme="@style/TemaEditText"
         app:layout_constraintBottom_toTopOf="@+id/textInputLayout5"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
@@ -49,9 +60,13 @@
             android:id="@+id/txtEmailCadastro"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:background="@drawable/label_telas_cadastro_login"
             android:hint="E-mail"
             android:inputType="textEmailAddress"
-            android:textStyle="bold" />
+            android:textColorHint="@android:color/white"
+            android:textColorLink="@android:color/white"
+            android:textStyle="bold"
+            android:theme="@style/TemaEditText" />
     </android.support.design.widget.TextInputLayout>
 
     <Button
@@ -62,6 +77,7 @@
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginStart="24dp"
+        android:background="@drawable/botao_cadastrar"
         android:onClick="validaDados"
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
@@ -74,28 +90,33 @@
 
     <TextView
         android:id="@+id/txtCliente"
-        android:layout_width="wrap_content"
-        android:layout_height="15dp"
+        android:layout_width="86dp"
+        android:layout_height="28dp"
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
         android:layout_marginTop="8dp"
         android:text="Barbeiro"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
 
     <TextView
         android:id="@+id/txtBarbeiro"
-        android:layout_width="wrap_content"
-        android:layout_height="16dp"
-        android:layout_marginBottom="8dp"
+        android:layout_width="73dp"
+        android:layout_height="34dp"
         android:layout_marginEnd="55dp"
         android:layout_marginRight="55dp"
         android:layout_marginTop="8dp"
         android:text="Cliente"
-        app:layout_constraintBottom_toTopOf="@+id/button"
+        android:textColor="@android:color/white"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/switchTipoUsuario"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textInputLayout5" />
+        app:layout_constraintTop_toTopOf="@+id/switchTipoUsuario" />
 
     <Switch
         android:id="@+id/switchTipoUsuario"
@@ -106,6 +127,9 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
+        android:textColorLink="@android:color/black"
+        android:textSize="18sp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/button"
         app:layout_constraintEnd_toStartOf="@+id/txtBarbeiro"
         app:layout_constraintHorizontal_bias="0.5"
@@ -114,7 +138,7 @@
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout5"
-        android:layout_width="368dp"
+        android:layout_width="351dp"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="50dp"
@@ -123,6 +147,12 @@
         android:layout_marginStart="50dp"
         android:layout_marginTop="8dp"
         android:hint="Senha"
+        android:paddingLeft="30dp"
+        android:paddingRight="15dp"
+        android:textColorHint="@android:color/white"
+        android:theme="@style/TemaEditText"
+        app:boxBackgroundColor="@android:color/white"
+        app:boxStrokeColor="@android:color/white"
         app:layout_constraintBottom_toTopOf="@+id/switchTipoUsuario"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -130,11 +160,18 @@
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/txtSenhacadastro"
-            android:layout_width="match_parent"
+            android:layout_width="288dp"
             android:layout_height="wrap_content"
             android:hint="Senha"
             android:inputType="textPassword"
-            android:textStyle="bold" />
+            android:paddingLeft="0dp"
+            android:paddingRight="0dp"
+            android:textColor="@android:color/white"
+            android:textColorHint="@android:color/white"
+            android:textColorLink="@android:color/white"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:theme="@style/TemaEditText" />
     </android.support.design.widget.TextInputLayout>
 
     <com.facebook.login.widget.LoginButton
