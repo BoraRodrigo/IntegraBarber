@@ -13,11 +13,13 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
 import com.projeto.integrador.R;
 
@@ -32,11 +34,14 @@ public class InicialBarbeiroActivity extends AppCompatActivity
     private Toolbar toolbar;
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    private TextView nomeUsuario;
+    private FirebaseAuth autenticacao = ConfiguracaoFirebase.getAutenticacao();;
+    private FirebaseUser user = autenticacao.getCurrentUser();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_inicial_cliente);
+        setContentView(R.layout.activity_inicial_barbeiro);
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -48,10 +53,12 @@ public class InicialBarbeiroActivity extends AppCompatActivity
         navigationView = (NavigationView) findViewById(R.id.navView);
         navigationView.setNavigationItemSelectedListener(this);
 
+        View headerView = navigationView.getHeaderView(0);
+        nomeUsuario = (TextView) headerView.findViewById(R.id.txt_Nome_Login);
+        nomeUsuario.setText(user.getDisplayName());
+
         getSupportFragmentManager().beginTransaction().replace(R.id.conteudo_dos_Fragmentos, new MapsFragment()).commit();
         navigationView.setCheckedItem(R.id.nav_item_one);
-
-
     }
 
     @Override

@@ -2,13 +2,19 @@ package com.projeto.integrador.Activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.projeto.integrador.Activity.LoginActivity;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
@@ -26,6 +32,9 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
 
     private TextInputEditText txtNomeBarbearia, txtDescricao, txtTelefone, txtPagina, txtRua, txtCidade, txtCEP,txtnumero;
     private FirebaseAuth autenticacao;
+    private Button button2;
+
+    int clienteAlterando = 0;
 
     Barbeiro barbeiro;
     DatabaseReference databaseReference;// = FirebaseDatabase.getInstance().getReferenceFromUrl("https://integrabarber-65f96.firebaseio.com/");;
@@ -44,6 +53,17 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
         txtCEP = findViewById(R.id.txtCEP);
         txtnumero=findViewById(R.id.txtNumero);
 
+        button2 = findViewById(R.id.button2);
+
+        if(txtNomeBarbearia.getText().toString().isEmpty()){
+            Intent intent = getIntent();
+            Bundle bundle = intent.getExtras();
+            barbeiro = (Barbeiro) bundle.getSerializable("barbeiroAlterado");
+
+            Log.e("Teste do Id no alterar", barbeiro.getId());
+
+            colocaDados(barbeiro);
+        }
     }
 
     public void validaCampos(View view) {
@@ -69,7 +89,13 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
 
                                         Intent intent = getIntent();
                                         Bundle bundle = intent.getExtras();
-                                        barbeiro = (Barbeiro) bundle.getSerializable("barbeiro");
+
+                                        if(clienteAlterando == 0){
+                                            barbeiro = (Barbeiro) bundle.getSerializable("barbeiro");
+                                        }
+                                        else if(clienteAlterando == 1){
+                                            barbeiro = (Barbeiro) bundle.getSerializable("barbeiroAlterado");
+                                        }
 
                                         barbearia.setIdBarbeiro(barbeiro.getId());
 
@@ -144,6 +170,37 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "Erro ao Cadastrar", Toast.LENGTH_SHORT).show();
                     }*/
         //}
+    }
+
+    public void colocaDados(Barbeiro bar){
+        final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();
+        usuReference.child("barbearia").orderByChild("id").equalTo(bar.getId()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Barbearia barbearia = postSnapshot.getValue(Barbearia.class);
+                    txtNomeBarbearia.setText(barbearia.getNomebarbearia());
+                    txtDescricao.setText(barbearia.getDescricao());
+                    txtTelefone.setText(barbearia.getTelefone());
+                    txtPagina.setText(barbearia.getPagina());
+                    txtRua.setText(barbearia.getRua());
+                    txtnumero.setText(String.valueOf(barbearia.getNumero()));
+                    txtCidade.setText(barbearia.getCidade());
+                    txtCEP.setText(barbearia.getCep());
+
+                    button2.setText("Alterar");
+
+                    clienteAlterando = 1;
+
+                    break;
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
     //});
     //}

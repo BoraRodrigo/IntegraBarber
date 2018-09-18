@@ -1,6 +1,7 @@
 package com.projeto.integrador.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -22,6 +23,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
+import com.projeto.integrador.Model.Barbeiro;
 import com.projeto.integrador.Model.Cliente;
 import com.projeto.integrador.R;
 
@@ -46,6 +48,7 @@ public class AlterarFragment extends Fragment {
     private TextInputEditText txtEmail,txtNome;
     private Button btnAlterar, btnEnviarEmail;
     private Cliente cliente;
+    private Barbeiro barbeiro;
     private OnFragmentInteractionListener mListener;
 
     public AlterarFragment() {
@@ -111,20 +114,63 @@ public class AlterarFragment extends Fragment {
             }
         });
 
+        if(txtNome.getText().toString().isEmpty()){
+            usuReference.child("barbeiro").orderByChild("email").equalTo(usuario.getEmail()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                        barbeiro = postSnapshot.getValue(Barbeiro.class);
+                        txtNome.setText(barbeiro.getNome());
+                        txtEmail.setText(barbeiro.getEmail());
+
+                        break;
+                    }
+                }
+
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                }
+            });
+        }
+
         btnAlterar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                cliente.setNome(txtNome.getText().toString());
-                cliente.setEmail(txtEmail.getText().toString());
-                usuario.updateEmail(cliente.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if(task.isSuccessful()){
-                            Log.e("Email", "Galvão, diga Tino, vai mudar");
+                if(cliente != null){
+                    cliente.setNome(txtNome.getText().toString());
+                    cliente.setEmail(txtEmail.getText().toString());
+                    usuario.updateEmail(cliente.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Log.e("Email", "Galvão, diga Tino, vai mudar");
+                            }
                         }
-                    }
-                });
-                usuReference.child("clientes").child(cliente.getId()).setValue(cliente);
+                    });
+                    usuReference.child("clientes").child(cliente.getId()).setValue(cliente);
+                }
+                else if(barbeiro != null){
+                    barbeiro.setNome(txtNome.getText().toString());
+                    barbeiro.setEmail(txtEmail.getText().toString());
+                    usuario.updateEmail(barbeiro.getEmail()).addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+                            if(task.isSuccessful()){
+                                Log.e("Email", "Galvão, diga Tino, vai mudar");
+                            }
+                        }
+                    });
+                    usuReference.child("barbeiro").child(barbeiro.getId()).setValue(barbeiro);
+
+                    getActivity().startActivities(new Intent[]{new Intent(getActivity(), CadastroBarbeariaActivity.class)});
+
+                    Intent intent = new Intent(getActivity(), CadastroBarbeariaActivity.class);
+                    Bundle bundle = new Bundle();
+                    bundle.putSerializable("barbeiroAlterado", barbeiro);
+                    intent.putExtras(bundle);
+                    startActivity(intent);
+                }
             }
         });
 
