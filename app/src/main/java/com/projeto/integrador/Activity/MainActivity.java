@@ -14,11 +14,13 @@ import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Configuracoes.PermissoesMaps;
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
@@ -31,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     private FirebaseAuth autenticacao;
 
     private String[] permissoes = new String[]{
-            Manifest.permission.ACCESS_FINE_LOCATION
+        Manifest.permission.ACCESS_FINE_LOCATION
     };///Lista de permisoes
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +45,23 @@ public class MainActivity extends AppCompatActivity {
         PermissoesMaps.validarPermissoes(permissoes, this, 1);
 
         autenticacao= ConfiguracaoFirebase.getAutenticacao();
-        autenticacao.signOut();// Desloga possivel usuariologado na conta
+
+        final FirebaseUser user = autenticacao.getCurrentUser();
+        if(user != null){
+            Log.e("Logado", user.getEmail());
+            UsuarioFirebase.redirecionaUsuarioLogado(MainActivity.this);
+        }
+        /*else { // Comentado para não deixar tela em branco enquanto ele não redirecina o usuário
+            setContentView(R.layout.activity_main);
+        }*/
+
+        //autenticacao.signOut();// Desloga possivel usuariologado na conta (Comentei esta linha para ele entrar automaticamente)
 
         setContentView(R.layout.activity_main);
     }
 
     public void  abrirTelaCadastro(View view){
-            startActivities(new Intent[]{new Intent(this, CadastroActivity.class)});
+        startActivities(new Intent[]{new Intent(this, CadastroActivity.class)});
     }
 
 
