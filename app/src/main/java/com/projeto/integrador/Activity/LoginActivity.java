@@ -103,7 +103,8 @@ public class LoginActivity extends AppCompatActivity {
                             }
                         }
                         if(barbeiroEntra==0){
-                            startActivities(new Intent[]{new Intent(LoginActivity.this, FacebookCadastroActivity.class)});
+                            startActivities(new Intent[]{new Intent(LoginActivity.this, InicialBarbeiroActivity.class)});
+                            finish();
                         }
                     }
 
