@@ -30,10 +30,6 @@ import com.projeto.integrador.Configuracoes.UsuarioFirebase;
 import com.projeto.integrador.Model.Cliente;
 import com.projeto.integrador.R;
 
-//import barbearia.integradorvi.com.br.integradorbarber.Configuracoes.ConfiguracaoFirebase;
-//import barbearia.integradorvi.com.br.integradorbarber.Configuracoes.UsuarioFirebase;
-//import barbearia.integradorvi.com.br.integradorbarber.R;
-
 public class LoginActivity extends AppCompatActivity {
 
     private TextInputEditText txtSenha, txtEmail;
@@ -77,8 +73,6 @@ public class LoginActivity extends AppCompatActivity {
     public void logarCliente(String email, String senha){//Cliente cliente
         autenticacao= ConfiguracaoFirebase.getAutenticacao();
 
-        autenticacao= ConfiguracaoFirebase.getAutenticacao();
-
         //Hoje 17/09/2018
         AuthCredential credencial = EmailAuthProvider.getCredential(email, senha);
         autenticacao.signInWithCredential(credencial).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -95,12 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                         int barbeiroEntra = 0;
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             Cliente c = postSnapshot.getValue(Cliente.class);
-                            if(user.getEmail().equals(c.getEmail())){
+                            //if(user.getEmail().equals(c.getEmail())){
                                 startActivities(new Intent[]{new Intent(LoginActivity.this, InicialClienteActivity.class)});
                                 barbeiroEntra = 1;
                                 finish();
                                 //break;
-                            }
+                            //}
                         }
                         if(barbeiroEntra==0){
                             startActivities(new Intent[]{new Intent(LoginActivity.this, InicialBarbeiroActivity.class)});
@@ -177,6 +171,17 @@ public class LoginActivity extends AppCompatActivity {
             }
         });*/
 
+    }
+
+    public void esqueceuSenha(View view){
+        autenticacao= ConfiguracaoFirebase.getAutenticacao();
+
+        if(!txtEmail.getText().toString().isEmpty()){
+            autenticacao.sendPasswordResetEmail(txtEmail.getText().toString());
+        }
+        else{
+            Toast.makeText(getApplicationContext(),"Por favor, preencha o campo de email",Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void chama(View view){

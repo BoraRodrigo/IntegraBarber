@@ -1,8 +1,11 @@
 package com.projeto.integrador.Activity;
 
 import android.Manifest;
+import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.FragmentManager;
 import android.content.Context;
 import android.content.pm.PackageManager;
@@ -16,6 +19,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -52,6 +58,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private GoogleMap mMap;
     private FirebaseAuth autenticacao;
+    private TextView txtNomeDaBarbearia;
+    private Button btnFacebook, btnLigacao, btnAvaliar;
 
     //Lista de Barbearia Cadastradas
     private List<Barbearia> listaDeBarbearia= new ArrayList<>();
@@ -164,6 +172,23 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public boolean onMarkerClick(Marker marker) {
                 Toast.makeText(getActivity(),"Você clicou em "+marker.getTitle(), Toast.LENGTH_LONG).show();
+
+                //getActivity().startActivities(new Intent[]{new Intent(getActivity(), InicialBarbeiroActivity.class)});
+
+                BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
+                View parentView = getLayoutInflater().inflate(R.layout.activity_informacoes_barbearia,null);
+                bottomSheetDialog.setContentView(parentView);
+                BottomSheetBehavior bottomSheetBehavior = BottomSheetBehavior.from((View) parentView.getParent());
+                bottomSheetBehavior.setPeekHeight(700);//(int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,100, getResources().getDisplayMetrics()));
+                bottomSheetDialog.show();
+
+                txtNomeDaBarbearia = parentView.findViewById(R.id.txtNomeDaBarbearia);
+                btnFacebook = parentView.findViewById(R.id.btnFacebook);
+                btnLigacao = parentView.findViewById(R.id.btnLigacao);
+                btnAvaliar = parentView.findViewById(R.id.btnAvaliar);
+
+                txtNomeDaBarbearia.setText(marker.getTitle());
+
                 return false;
             }
         });
@@ -201,9 +226,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
-
 
     }
 

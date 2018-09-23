@@ -47,7 +47,6 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"
@@ -79,7 +78,6 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".Activity.MapsActivity"
             android:label="@string/title_activity_maps" />
@@ -93,7 +91,8 @@
             android:parentActivityName=".Activity.MainActivity" />
         <activity android:name=".Activity.CadastroBarbeariaActivity" />
         <activity android:name=".Activity.InicialClienteActivity" />
-        <activity android:name=".Activity.InicialBarbeiroActivity"></activity>
+        <activity android:name=".Activity.InicialBarbeiroActivity" />
+        <activity android:name=".Activity.InformacoesBarbeariaActivity"></activity>
     </application>
 
 </manifest>

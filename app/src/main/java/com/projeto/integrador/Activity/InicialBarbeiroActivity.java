@@ -23,8 +23,6 @@ import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
 import com.projeto.integrador.R;
 
-
-
 public class InicialBarbeiroActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         LoginFragment.OnFragmentInteractionListener,

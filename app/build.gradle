@@ -6,11 +6,11 @@ android {
         //   applicationId "unifacear.integrador.barbearia.integrabarber"
         applicationId "com.projeto.integrador"
 
-
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 13//Alterando a versão para atualizar google play
         versionName "1.40"
+        multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     lintOptions {//Adiconado Para erro de APK vereficar depois se está ok
@@ -46,5 +46,7 @@ dependencies {
     implementation 'com.google.firebase:firebase-auth:15.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     implementation 'com.facebook.android:account-kit-sdk:4.+'
+
+    implementation 'com.android.support:multidex:1.0.3'
 }
 apply plugin: 'com.google.gms.google-services'
