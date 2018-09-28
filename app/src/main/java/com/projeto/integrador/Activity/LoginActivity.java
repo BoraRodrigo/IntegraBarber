@@ -12,11 +12,17 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.login.LoginResult;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.EmailAuthProvider;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
@@ -35,6 +41,8 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText txtSenha, txtEmail;
     private FirebaseAuth autenticacao;
     private ProgressBar progressBarLogin;
+    private LoginButton loginButton;
+    private CallbackManager callbackManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +53,7 @@ public class LoginActivity extends AppCompatActivity {
         txtEmail =findViewById(R.id.txtEmailLogin);
         txtSenha=findViewById(R.id.txtSenhaLogin);
         progressBarLogin=findViewById(R.id.progressBarLogin);
+        loginButton = findViewById(R.id.login_button);
     }
 
     public void validaLoginUsuario(View view){
@@ -73,13 +82,11 @@ public class LoginActivity extends AppCompatActivity {
     public void logarCliente(String email, String senha){//Cliente cliente
         autenticacao= ConfiguracaoFirebase.getAutenticacao();
 
-        //Hoje 17/09/2018
         AuthCredential credencial = EmailAuthProvider.getCredential(email, senha);
         autenticacao.signInWithCredential(credencial).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-            if (task.isSuccessful()) {
-                // Sign in success, update UI with the signed-in user's information
+            if (task.isSuccessful()) { // Sign in success, update UI with the signed-in user's information
                 Log.e("Login com sucesso", "signInWithCredential:success");
                 final FirebaseUser user = autenticacao.getCurrentUser();
                 final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();
@@ -89,12 +96,10 @@ public class LoginActivity extends AppCompatActivity {
                         int barbeiroEntra = 0;
                         for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
                             Cliente c = postSnapshot.getValue(Cliente.class);
-                            //if(user.getEmail().equals(c.getEmail())){
-                                startActivities(new Intent[]{new Intent(LoginActivity.this, InicialClienteActivity.class)});
-                                barbeiroEntra = 1;
-                                finish();
-                                //break;
-                            //}
+                            startActivities(new Intent[]{new Intent(LoginActivity.this, InicialClienteActivity.class)});
+                            barbeiroEntra = 1;
+                            finish();
+                            break;
                         }
                         if(barbeiroEntra==0){
                             startActivities(new Intent[]{new Intent(LoginActivity.this, InicialBarbeiroActivity.class)});
@@ -182,6 +187,55 @@ public class LoginActivity extends AppCompatActivity {
         else{
             Toast.makeText(getApplicationContext(),"Por favor, preencha o campo de email",Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void entraFacebook(View view){
+        autenticacao= ConfiguracaoFirebase.getAutenticacao();
+
+        callbackManager = CallbackManager.Factory.create();
+        loginButton.setReadPermissions("email", "public_profile");
+
+        // Callback registration
+        loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
+            @Override
+            public void onSuccess(LoginResult loginResult) {
+                Log.e("Sucesso!", "facebook:onSuccess:" + loginResult);
+                AuthCredential credencial = FacebookAuthProvider.getCredential(loginResult.getAccessToken().getToken());
+                autenticacao.signInWithCredential(credencial).addOnCompleteListener(LoginActivity.this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            Log.e("Login com sucesso", "signInWithCredential:success");
+                            FirebaseUser user = autenticacao.getCurrentUser();
+                            //updateUI(user);
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Log.e("Erro ao logar", "signInWithCredential:failure", task.getException());
+                            Toast.makeText(LoginActivity.this, "Autenticação falhou.", Toast.LENGTH_SHORT).show();
+                            //updateUI(null);
+                        }
+
+                        // ...
+                    }
+                });
+
+                Toast.makeText(getApplicationContext(),"Funcionou!", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancel() {
+                // App code
+                Toast.makeText(getApplicationContext(),"Cancelado", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onError(FacebookException exception) {
+                // App code
+                Log.e("Erro ao logar", "Erro: ", exception);
+                Toast.makeText(getApplicationContext(),"Não funcionou", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     public void chama(View view){

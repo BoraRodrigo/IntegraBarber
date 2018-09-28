@@ -1,6 +1,7 @@
 package com.projeto.integrador.Activity;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,16 +22,25 @@ import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.ValueEventListener;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Configuracoes.PermissoesMaps;
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
+import com.projeto.integrador.Model.Barbeiro;
+import com.projeto.integrador.Model.Cliente;
 import com.projeto.integrador.R;
 
+import static com.projeto.integrador.Configuracoes.UsuarioFirebase.getIdentificadoUsuario;
 
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth autenticacao;
+
+    int barlogin = 0;
 
     private String[] permissoes = new String[]{
         Manifest.permission.ACCESS_FINE_LOCATION
@@ -49,11 +59,12 @@ public class MainActivity extends AppCompatActivity {
         final FirebaseUser user = autenticacao.getCurrentUser();
         if(user != null){
             Log.e("Logado", user.getEmail());
-            UsuarioFirebase.redirecionaUsuarioLogado(MainActivity.this);
+            redirecionaUsuario();
+            //UsuarioFirebase.redirecionaUsuarioLogado(MainActivity.this);
         }
-        /*else { // Comentado para não deixar tela em branco enquanto ele não redirecina o usuário
+        else { // Comentado para não deixar tela em branco enquanto ele não redirecina o usuário
             setContentView(R.layout.activity_main);
-        }*/
+        }
 
         //autenticacao.signOut();// Desloga possivel usuariologado na conta (Comentei esta linha para ele entrar automaticamente)
 
@@ -104,8 +115,64 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void redirecionaUsuario(){//passa a activy como parametro
+        autenticacao= ConfiguracaoFirebase.getAutenticacao();
+        final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();//.child("clientes").child(getIdentificadoUsuario()); //pega o id logado;
+        final FirebaseUser user = autenticacao.getCurrentUser();
 
+        //Log.e("o id - ", user.getUid());
 
+        usuReference.child("clientes").orderByChild("email").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int barbeiroEntra = 0;
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Cliente c = postSnapshot.getValue(Cliente.class);
+                    Log.e("Cliente","Entrou");
+                    startActivities(new Intent[]{new Intent(MainActivity.this, InicialClienteActivity.class)});
+                    barbeiroEntra = 1;
+                    finish();
+                    break;
+                }
+                if(barbeiroEntra==0){
+                    Log.e("Barbeiro","Entrou");
+                    startActivities(new Intent[]{new Intent(MainActivity.this, InicialBarbeiroActivity.class)});
+                    finish();
+                }
+            }
 
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    public void testeLocaco(){
+        autenticacao= ConfiguracaoFirebase.getAutenticacao();
+        final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference().child("barbeiro").child(getIdentificadoUsuario()); //pega o id logado;;
+
+        Log.e("xablau","é barbeiro");
+
+        usuReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                Barbeiro barbeiro = dataSnapshot.getValue(Barbeiro.class);
+                startActivity(new Intent(MainActivity.this, InicialBarbeiroActivity.class));
+
+                Intent intent = new Intent(MainActivity.this, InicialBarbeiroActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("barbeiro", barbeiro);
+                intent.putExtras(bundle);
+
+                startActivity(intent);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+    }
 
 }
