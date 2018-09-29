@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Switch;
+import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -18,7 +19,9 @@ public class FacebookCadastroActivity extends Activity {
 
     private Button btnSalvar;
     private Switch switchTipousuario;
-    private FirebaseAuth autenticacao = ConfiguracaoFirebase.getAutenticacao();;
+    private FirebaseAuth autenticacao = ConfiguracaoFirebase.getAutenticacao();
+    private TextView txtNome;
+
     FirebaseUser user = autenticacao.getCurrentUser();
 
     @Override
@@ -26,8 +29,11 @@ public class FacebookCadastroActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_facebook_cadastro);
 
+        txtNome = findViewById(R.id.txtNome);
         btnSalvar = findViewById(R.id.btnSalvar);
         switchTipousuario=findViewById(R.id.switchTipoUsuario);
+
+        txtNome.setText("Olá, "+user.getDisplayName());
 
         btnSalvar.setOnClickListener(new View.OnClickListener() {
             @Override

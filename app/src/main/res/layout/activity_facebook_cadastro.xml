@@ -7,15 +7,33 @@
     tools:context=".Activity.FacebookCadastroActivity">
 
     <TextView
+        android:id="@+id/txtNome"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="Olá,"
+        android:textSize="20sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtSucesso"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/txtCliente2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginLeft="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="8dp"
         android:text="Barbeiro"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnAlterar"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalvar"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMensagem" />
 
@@ -26,10 +44,10 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginRight="24dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="8dp"
         android:text="Cliente"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/btnAlterar"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalvar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txtMensagem" />
 
@@ -37,13 +55,16 @@
         android:id="@+id/switchTipoUsuario"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="100dp"
+        android:layout_marginTop="8dp"
         android:textSize="30sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSalvar"
         app:layout_constraintEnd_toStartOf="@+id/txtBarbeiro2"
+        app:layout_constraintHorizontal_bias="0.368"
         app:layout_constraintStart_toEndOf="@+id/txtCliente2"
         app:layout_constraintTop_toBottomOf="@+id/txtMensagem" />
 
@@ -51,18 +72,20 @@
         android:id="@+id/txtSucesso"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="50dp"
         android:contentDescription="dd"
-        android:text="Login com o Facebook efeituado com sucesso!"
+        android:text="Autenticação efeituada com sucesso!"
         android:textSize="20sp"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:text="Login com o Facebook efeituado com sucesso!" />
+        app:layout_constraintVertical_bias="0.17000002" />
 
     <TextView
         android:id="@+id/txtMensagem"
@@ -77,20 +100,23 @@
         android:textSize="25sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txtSucesso"
-        tools:text="Por favor nos informe se você gostaria de se cadastrar como cliente ou barbeiro" />
+        app:layout_constraintTop_toBottomOf="@+id/txtSucesso" />
 
     <Button
         android:id="@+id/btnSalvar"
         android:layout_width="187dp"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginStart="24dp"
-        android:layout_marginTop="72dp"
+        android:layout_marginTop="8dp"
         android:text="Salvar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/switchTipoUsuario" />
+        app:layout_constraintTop_toBottomOf="@+id/txtMensagem"
+        app:layout_constraintVertical_bias="0.86" />
+
 </android.support.constraint.ConstraintLayout>
