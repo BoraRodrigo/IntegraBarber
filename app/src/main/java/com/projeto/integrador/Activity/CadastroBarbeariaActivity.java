@@ -37,7 +37,6 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
     int clienteAlterando = 0;
 
     Barbeiro barbeiro;
-    DatabaseReference databaseReference;// = FirebaseDatabase.getInstance().getReferenceFromUrl("https://integrabarber-65f96.firebaseio.com/");;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +54,20 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
 
         button2 = findViewById(R.id.button2);
 
-        if(txtNomeBarbearia.getText().toString().isEmpty()){
-            Intent intent = getIntent();
-            Bundle bundle = intent.getExtras();
-            barbeiro = (Barbeiro) bundle.getSerializable("barbeiroAlterado");
+        Intent intent = getIntent();
+        Bundle bundle = intent.getExtras();
 
-            Log.e("Teste do Id no alterar", barbeiro.getId());
-
-            colocaDados(barbeiro);
+        barbeiro = (Barbeiro) bundle.getSerializable("barbeiroAlterado");
+        if(barbeiro == null){
+            Log.e("Barbeiro", "precisa ser novo");
+            barbeiro = (Barbeiro) bundle.getSerializable("barbeiro");
+            //barbeiro = new Barbeiro();
         }
+        else{
+            Log.e("Barbeiro atual", barbeiro.getEmail().toString());
+            colocaDados();
+        }
+
     }
 
     public void validaCampos(View view) {
@@ -87,15 +91,19 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
                                         barbearia.setCep(txtCEP.getText().toString());
                                         barbearia.setNumero(Integer.parseInt(txtnumero.getText().toString()));
 
-                                        Intent intent = getIntent();
+                                        /*Intent intent = getIntent();
                                         Bundle bundle = intent.getExtras();
 
-                                        if(clienteAlterando == 0){
+                                        /*if(barbeiro != null){
+                                            barbeiro = (Barbeiro) bundle.getSerializable("barbeiro");
+                                        }
+
+                                        /*if(clienteAlterando == 0){
                                             barbeiro = (Barbeiro) bundle.getSerializable("barbeiro");
                                         }
                                         else if(clienteAlterando == 1){
                                             barbeiro = (Barbeiro) bundle.getSerializable("barbeiroAlterado");
-                                        }
+                                        }*/
 
                                         barbearia.setIdBarbeiro(barbeiro.getId());
 
@@ -128,13 +136,6 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
 
     public void cadastrarBarbearia(final Barbearia barbearia) {
         autenticacao = ConfiguracaoFirebase.getAutenticacao();
-        //autenticacao.createUserWithEmailAndPassword(barbeiro.getEmail(), barbeiro.getSenha()).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-        //@Override
-        //public void onComplete(@NonNull Task<AuthResult> task) {
-        //if (task.isSuccessful()) {
-
-        //String idBarbearia = task.getResult().getUser().getUid();
-        //barbearia.setId(idBarbearia);
 
         barbearia.setId(autenticacao.getUid());
 
@@ -144,37 +145,16 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
         UsuarioFirebase.atualizarNomeUsuario(barbearia.getNomebarbearia());
 
         ////Atualizar Nome no UserProfile no perfil
-        //UsuarioFirebase.atualizarNomeUsuario(cliente.getNome()); POR CAUSA DO TESTE
+        //UsuarioFirebase.atualizarNomeUsuario(cliente.getNome());
 
-        //if (cliente != null) {//TESTE //cliente.getTipo().equals("C")  //Se o usuario Cadastrado for Cliente Redicrecions spos o Cadastro
         startActivities(new Intent[]{new Intent(CadastroBarbeariaActivity.this, LoginActivity.class)});
         finish();
 
-        //Toast.makeText(getApplicationContext(), "Chegou", Toast.LENGTH_SHORT).show();
-        //}
-        //} else {//Trata execesões do firebase se caso não realizar cadastro
-        //String exececao = "";
-                    /*try {
-                        throw task.getException();
-                    } catch (FirebaseAuthWeakPasswordException e) {
-                        Toast.makeText(getApplicationContext(), "Digite Uma senha mais Forte", Toast.LENGTH_SHORT).show();
-
-                    } catch (FirebaseAuthInvalidCredentialsException e) {
-                        Toast.makeText(getApplicationContext(), "E-mail Invalido", Toast.LENGTH_SHORT).show();
-
-                    } catch (FirebaseAuthUserCollisionException e) {
-                        Toast.makeText(getApplicationContext(), "Conta já Cadastrada", Toast.LENGTH_SHORT).show();
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(getApplicationContext(), "Erro ao Cadastrar", Toast.LENGTH_SHORT).show();
-                    }*/
-        //}
     }
 
-    public void colocaDados(Barbeiro bar){
+    public void colocaDados(){//Barbeiro bar
         final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();
-        usuReference.child("barbearia").orderByChild("id").equalTo(bar.getId()).addValueEventListener(new ValueEventListener() {
+        usuReference.child("barbearia").orderByChild("id").equalTo(barbeiro.getId()).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
@@ -202,6 +182,5 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
             }
         });
     }
-    //});
-    //}
+
 }

@@ -149,6 +149,7 @@ public class AlterarFragment extends Fragment {
                         }
                     });
                     usuReference.child("clientes").child(cliente.getId()).setValue(cliente);
+                    UsuarioFirebase.atualizarNomeUsuario(cliente.getNome());
                 }
                 else if(barbeiro != null){
                     barbeiro.setNome(txtNome.getText().toString());
@@ -162,6 +163,7 @@ public class AlterarFragment extends Fragment {
                         }
                     });
                     usuReference.child("barbeiro").child(barbeiro.getId()).setValue(barbeiro);
+                    UsuarioFirebase.atualizarNomeUsuario(barbeiro.getNome());
 
                     getActivity().startActivities(new Intent[]{new Intent(getActivity(), CadastroBarbeariaActivity.class)});
 
@@ -177,7 +179,7 @@ public class AlterarFragment extends Fragment {
         btnEnviarEmail.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                autenticacao.sendPasswordResetEmail(cliente.getEmail());
+            autenticacao.sendPasswordResetEmail(cliente.getEmail());
             }
         });
 

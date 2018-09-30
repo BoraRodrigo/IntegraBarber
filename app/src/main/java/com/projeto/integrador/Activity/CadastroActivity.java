@@ -7,6 +7,7 @@ import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -51,7 +52,8 @@ public class CadastroActivity extends AppCompatActivity{
     private TextInputEditText txtEmail,txtNome, txtSenha;
     private LoginButton loginButton;
     private SignInButton signInButton;
-    private Switch switchTipousuario;
+    private RadioButton radioButtonBarbeiro, radioButtonCliente;
+    //private Switch switchTipousuario;
 
     private GoogleSignInClient mGoogleSignInClient;
 
@@ -72,7 +74,9 @@ public class CadastroActivity extends AppCompatActivity{
         loginButton = findViewById(R.id.login_button);
         signInButton = findViewById(R.id.sign_in_button);
 
-        switchTipousuario=findViewById(R.id.switchTipoUsuario);
+        //switchTipousuario=findViewById(R.id.switchTipoUsuario);
+        radioButtonBarbeiro = findViewById(R.id.radioButtonBarbeiro);
+        radioButtonCliente = findViewById(R.id.radioButtonCliente);
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
@@ -80,6 +84,10 @@ public class CadastroActivity extends AppCompatActivity{
                 .build();
 
         mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
+        loginButton.setScaleX(1.1f);
+        loginButton.setScaleY(1.1f);
+        signInButton.setSize(1);
 
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,8 +140,16 @@ public class CadastroActivity extends AppCompatActivity{
     }
 
     public String tipo_Cadastro(){//Varefica qse é cliente ou barbeiro
-        return switchTipousuario.isChecked()?"C":"B";//if ternario
-
+        if(radioButtonCliente.isChecked()){
+            return "C";
+        }
+        else if(radioButtonBarbeiro.isChecked()){
+            return "B";
+        }
+        else{
+            return "";
+        }
+        //return switchTipousuario.isChecked()?"C":"B";//if ternario
     }
 
     public void cadastrarUsuario(final Cliente cliente, final Barbeiro barbeiro){// Colocado barbeiro
