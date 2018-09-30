@@ -10,53 +10,52 @@
 
 
     <android.support.design.widget.TextInputLayout
+        android:id="@+id/textInputLayout9"
         android:layout_width="0dp"
-        android:layout_height="55dp"
+        android:layout_height="53dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="200dp"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/textInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.777">
+        app:layout_constraintTop_toBottomOf="@+id/imageView3">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/txtEmailLogin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:drawableLeft="@drawable/ic_email_black_24dp"
             android:hint="E-MAIL"
             android:inputType="textCapSentences|textEmailAddress"
             android:textColor="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white"
-            android:drawableLeft="@drawable/ic_email_black_24dp"
             android:textStyle="bold" />
     </android.support.design.widget.TextInputLayout>
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/textInputLayout"
         android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:layout_marginBottom="8dp"
+        android:layout_height="54dp"
         android:layout_marginEnd="16dp"
         android:layout_marginLeft="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
         android:textColorHint="@android:color/white"
-        app:layout_constraintBottom_toTopOf="@+id/btnEntrar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout9">
 
         <android.support.design.widget.TextInputEditText
             android:id="@+id/txtSenhaLogin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:drawableLeft="@drawable/ic_senha_black_24dp"
             android:hint="SENHA"
             android:inputType="textPassword"
             android:shadowColor="@android:color/white"
@@ -64,7 +63,6 @@
             android:textColorHighlight="@android:color/white"
             android:textColorHint="@android:color/white"
             android:textColorLink="@android:color/white"
-            android:drawableLeft="@drawable/ic_senha_black_24dp"
 
             android:textStyle="bold" />
     </android.support.design.widget.TextInputLayout>
@@ -73,32 +71,37 @@
         android:id="@+id/btnEntrar"
         android:layout_width="0dp"
         android:layout_height="62dp"
-        android:layout_marginBottom="200dp"
+        android:layout_marginBottom="84dp"
         android:layout_marginEnd="24dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:layout_marginStart="24dp"
+        android:layout_marginTop="8dp"
         android:background="@drawable/backgranud_botaoentrar"
         android:onClick="validaLoginUsuario"
         android:text="Entrar"
+        android:textColor="@android:color/white"
         android:textSize="@dimen/activity_horizontal_margin"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
+
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
-
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textInputLayout"
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/imageView3"
-        android:layout_width="193dp"
-        android:layout_height="204dp"
+        android:layout_width="0dp"
+        android:layout_height="126dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:srcCompat="@mipmap/logo" />
@@ -108,24 +111,22 @@
         style="?android:attr/progressBarStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="45dp"
+        android:layout_marginTop="8dp"
         android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/btnEsqueceuSenha"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEntrar"
-        app:layout_constraintVertical_bias="0.492" />
+        app:layout_constraintTop_toBottomOf="@+id/btnEntrar" />
 
     <Button
         android:id="@+id/btnEsqueceuSenha"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
+        android:layout_marginBottom="24dp"
         android:layout_marginEnd="8dp"
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
@@ -133,11 +134,13 @@
         android:layout_marginTop="8dp"
         android:onClick="esqueceuSenha"
         android:text="Esqueceu sua senha?"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnEntrar"
-        app:layout_constraintVertical_bias="0.78" />
+        app:layout_constraintVertical_bias="0.727" />
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button"
@@ -149,11 +152,46 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="156dp"
         android:onClick="entraFacebook"
-        app:layout_constraintBottom_toTopOf="@+id/btnEsqueceuSenha"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnEntrar" /> <!-- Eu que fiz a ultima linha -->
+        app:layout_constraintTop_toBottomOf="@+id/btnEntrar"
+        app:layout_constraintVertical_bias="0.862" /> <!-- Eu que fiz a ultima linha -->
+
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/sign_in_button"
+        android:layout_width="wrap_content"
+        android:layout_height="49dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/login_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.501"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEntrar"
+        app:layout_constraintVertical_bias="0.9" />
+
+    <TextView
+        android:id="@+id/txtOu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="-ou-"
+        android:textColor="@android:color/white"
+        app:layout_constraintBottom_toTopOf="@+id/sign_in_button"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnEsqueceuSenha" />
 
 </android.support.constraint.ConstraintLayout>

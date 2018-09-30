@@ -17,6 +17,7 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -42,6 +43,7 @@ public class LoginActivity extends AppCompatActivity {
     private FirebaseAuth autenticacao;
     private ProgressBar progressBarLogin;
     private LoginButton loginButton;
+    private SignInButton signInButton;
     private CallbackManager callbackManager;
 
     @Override
@@ -54,6 +56,11 @@ public class LoginActivity extends AppCompatActivity {
         txtSenha=findViewById(R.id.txtSenhaLogin);
         progressBarLogin=findViewById(R.id.progressBarLogin);
         loginButton = findViewById(R.id.login_button);
+        signInButton = findViewById(R.id.sign_in_button);
+
+        loginButton.setScaleX(1.1f);
+        loginButton.setScaleY(1.1f);
+        signInButton.setSize(1);
     }
 
     public void validaLoginUsuario(View view){
