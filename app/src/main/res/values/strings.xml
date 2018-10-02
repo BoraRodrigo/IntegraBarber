@@ -39,9 +39,9 @@
     <string name="open_drawer">Abrir</string>
     <string name="close_drawer">Fechar</string>
 
-    <string name="facebook_app_id">457498868073864</string>
+    <string name="facebook_app_id">1857129554382336</string> <!-- 457498868073864 -->
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">[ACCOUNT_KIT_CLIENT_TOKEN]</string>
-    <string name="fb_login_protocol_scheme">fb457498868073864</string>
+    <string name="fb_login_protocol_scheme">fb1857129554382336</string> <!-- fb457498868073864 -->
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

@@ -287,12 +287,6 @@ public class CadastroActivity extends AppCompatActivity{
             }
         });
 
-        /*loginButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            LoginManager.getInstance().logInWithReadPermissions(CadastroActivity.this, Arrays.asList("public_profile"));
-            }
-        });*/
     }
 
     @Override

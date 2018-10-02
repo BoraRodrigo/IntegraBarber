@@ -93,6 +93,7 @@
         <activity android:name=".Activity.InicialClienteActivity" />
         <activity android:name=".Activity.InicialBarbeiroActivity" />
         <activity android:name=".Activity.InformacoesBarbeariaActivity"></activity>
+        <activity android:name=".Activity.FacebookCadastroActivity"></activity>
     </application>
 
 </manifest>

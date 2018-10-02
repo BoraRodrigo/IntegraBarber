@@ -262,6 +262,7 @@ public class LoginActivity extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
         Log.e("Logando com Google", "firebaseAuthWithGoogle:" + acct.getId());
+        autenticacao = ConfiguracaoFirebase.getAutenticacao();
 
         AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
         autenticacao.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -271,7 +272,6 @@ public class LoginActivity extends AppCompatActivity {
                     // Sign in success, update UI with the signed-in user's information
                     Log.e("Sucesso", "signInWithCredential:success");
                     FirebaseUser user = autenticacao.getCurrentUser();
-                    startActivities(new Intent[]{new Intent(LoginActivity.this, FacebookCadastroActivity.class)});
                     //updateUI(user);
                 } else {
                     // If sign in fails, display a message to the user.
