@@ -227,10 +227,10 @@ public class CadastroActivity extends AppCompatActivity{
                     try {
                         throw task.getException();
                     } catch (FirebaseAuthWeakPasswordException e) {
-                        Toast.makeText(CadastroActivity.this, "Digete Uma senha mais Forte", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CadastroActivity.this, "Digite Uma senha mais Forte", Toast.LENGTH_SHORT).show();
 
                     } catch (FirebaseAuthInvalidCredentialsException e) {
-                        Toast.makeText(CadastroActivity.this, "E-mail Invalido", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(CadastroActivity.this, "E-mail Inválido", Toast.LENGTH_SHORT).show();
 
                     } catch (FirebaseAuthUserCollisionException e) {
                         Toast.makeText(CadastroActivity.this, "Conta já Cadastrada", Toast.LENGTH_SHORT).show();

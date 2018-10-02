@@ -17,7 +17,12 @@ import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.common.SignInButton;
+import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthCredential;
@@ -28,6 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseAuthInvalidUserException;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -45,6 +51,9 @@ public class LoginActivity extends AppCompatActivity {
     private LoginButton loginButton;
     private SignInButton signInButton;
     private CallbackManager callbackManager;
+    private GoogleSignInClient mGoogleSignInClient;
+
+    int loginFacebook = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,9 +67,23 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         signInButton = findViewById(R.id.sign_in_button);
 
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build();
+
+        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
+
         loginButton.setScaleX(1.1f);
         loginButton.setScaleY(1.1f);
         signInButton.setSize(1);
+
+        signInButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                entraGoogle();
+            }
+        });
     }
 
     public void validaLoginUsuario(View view){
@@ -146,43 +169,6 @@ public class LoginActivity extends AppCompatActivity {
             // ...
             }
         });
-
-        /*autenticacao.signInWithEmailAndPassword(
-                email, senha
-        ).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
-                    //Vereficar tipo de usuario logado Barbeiro Ou Cliente
-                    txtEmail.setEnabled(false);
-                    txtSenha.setEnabled(false);
-                    UsuarioFirebase.redirecionaUsuarioLogado(LoginActivity.this);//passa a activy como parametro
-
-                }else{
-                    String exececao = "";
-                    try {
-                        throw task.getException();
-                    } catch (FirebaseAuthInvalidUserException e) {
-                        Toast.makeText(LoginActivity.this, "Não Cadastrado", Toast.LENGTH_SHORT).show();
-                        progressBarLogin.setVisibility(View.GONE);
-
-
-                    } catch (FirebaseAuthInvalidCredentialsException e) {
-                        Toast.makeText(LoginActivity.this, "E-mail e senha não Correspondem", Toast.LENGTH_SHORT).show();
-                        progressBarLogin.setVisibility(View.GONE);
-
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        Toast.makeText(LoginActivity.this, "Erro ao Efetuar Login", Toast.LENGTH_SHORT).show();
-                        progressBarLogin.setVisibility(View.GONE);
-
-                    }
-
-                }
-            }
-        });*/
-
     }
 
     public void esqueceuSenha(View view){
@@ -196,8 +182,32 @@ public class LoginActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (loginFacebook == 1) {
+            callbackManager.onActivityResult(requestCode, resultCode, data);
+        }
+
+        if (requestCode == 101) {//RC_SIGN_IN
+            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(data);
+            try {
+                // Google Sign In was successful, authenticate with Firebase
+                GoogleSignInAccount account = task.getResult(ApiException.class);
+                firebaseAuthWithGoogle(account);
+            } catch (ApiException e) {
+                // Google Sign In failed, update UI appropriately
+                Log.e("Erro", "Google sign in failed", e);
+                // ...
+            }
+        }
+    }
+
     public void entraFacebook(View view){
         autenticacao= ConfiguracaoFirebase.getAutenticacao();
+
+        loginFacebook = 1;
 
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions("email", "public_profile");
@@ -241,6 +251,36 @@ public class LoginActivity extends AppCompatActivity {
                 // App code
                 Log.e("Erro ao logar", "Erro: ", exception);
                 Toast.makeText(getApplicationContext(),"Não funcionou", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void entraGoogle(){
+        Intent signInIntent = mGoogleSignInClient.getSignInIntent();
+        startActivityForResult(signInIntent, 101);//RC_SIGN_IN
+    }
+
+    private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
+        Log.e("Logando com Google", "firebaseAuthWithGoogle:" + acct.getId());
+
+        AuthCredential credential = GoogleAuthProvider.getCredential(acct.getIdToken(), null);
+        autenticacao.signInWithCredential(credential).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (task.isSuccessful()) {
+                    // Sign in success, update UI with the signed-in user's information
+                    Log.e("Sucesso", "signInWithCredential:success");
+                    FirebaseUser user = autenticacao.getCurrentUser();
+                    startActivities(new Intent[]{new Intent(LoginActivity.this, FacebookCadastroActivity.class)});
+                    //updateUI(user);
+                } else {
+                    // If sign in fails, display a message to the user.
+                    Log.e("Falhou", "signInWithCredential:failure", task.getException());
+                    //Snackbar.make(findViewById(R.id.main_layout), "Authentication Failed.", Snackbar.LENGTH_SHORT).show();
+                    //updateUI(null);
+                }
+
+                // ...
             }
         });
     }
