@@ -1,10 +1,14 @@
 package com.projeto.integrador.Activity;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.content.pm.Signature;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputEditText;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
@@ -46,6 +50,9 @@ import com.projeto.integrador.Model.Barbeiro;
 import com.projeto.integrador.Model.Cliente;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.R;
+
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 public class CadastroActivity extends AppCompatActivity{
 
@@ -95,6 +102,21 @@ public class CadastroActivity extends AppCompatActivity{
                 cadastraGoogle();
             }
         });
+
+        try {
+            PackageInfo info = getPackageManager().getPackageInfo(
+                    "com.projeto.integrador",
+                    PackageManager.GET_SIGNATURES);
+            for (Signature signature : info.signatures) {
+                MessageDigest md = MessageDigest.getInstance("SHA");
+                md.update(signature.toByteArray());
+                Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+
+        } catch (NoSuchAlgorithmException e) {
+
+        }
     }
     public void validaDados(View view) {
         String nome = txtNome.getText().toString();
