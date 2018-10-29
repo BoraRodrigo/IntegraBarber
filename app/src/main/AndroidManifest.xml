@@ -92,8 +92,9 @@
         <activity android:name=".Activity.CadastroBarbeariaActivity" />
         <activity android:name=".Activity.InicialClienteActivity" />
         <activity android:name=".Activity.InicialBarbeiroActivity" />
-        <activity android:name=".Activity.InformacoesBarbeariaActivity"></activity>
-        <activity android:name=".Activity.FacebookCadastroActivity"></activity>
+        <activity android:name=".Activity.InformacoesBarbeariaActivity" />
+        <activity android:name=".Activity.FacebookCadastroActivity" />
+        <activity android:name=".Activity.AvaliarBarbeariaActivity"></activity>
     </application>
 
 </manifest>

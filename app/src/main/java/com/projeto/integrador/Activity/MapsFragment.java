@@ -187,6 +187,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 btnLigacao = parentView.findViewById(R.id.btnLigacao);
                 btnAvaliar = parentView.findViewById(R.id.btnAvaliar);
 
+                btnAvaliar.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        getActivity().startActivities(new Intent[]{new Intent(getActivity(), AvaliarBarbeariaActivity.class)});
+                    }
+                });
+
                 txtNomeDaBarbearia.setText(marker.getTitle());
 
                 return false;

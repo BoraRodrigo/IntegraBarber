@@ -85,6 +85,8 @@ public class CadastroActivity extends AppCompatActivity{
         radioButtonBarbeiro = findViewById(R.id.radioButtonBarbeiro);
         radioButtonCliente = findViewById(R.id.radioButtonCliente);
 
+        callbackManager = CallbackManager.Factory.create();callbackManager = CallbackManager.Factory.create();
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -317,6 +319,7 @@ public class CadastroActivity extends AppCompatActivity{
 
         if(loginFacebook == 1){
             callbackManager.onActivityResult(requestCode, resultCode, data);
+            loginFacebook = 0;
         }
 
         if (requestCode == 101) {//RC_SIGN_IN
@@ -378,15 +381,6 @@ public class CadastroActivity extends AppCompatActivity{
     }
 
     public void cadastraGoogle(){
-        /*GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-
-        mGoogleSignInClient = GoogleSignIn.getClient(this, gso);
-
-        GoogleSignInAccount account = GoogleSignIn.getLastSignedInAccount(this);*/
-
         Intent signInIntent = mGoogleSignInClient.getSignInIntent();
         startActivityForResult(signInIntent, 101);//RC_SIGN_IN
     }
