@@ -190,6 +190,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 btnLigacao = parentView.findViewById(R.id.btnLigacao);
                 btnAvaliar = parentView.findViewById(R.id.btnAvaliar);
 
+                btnLigacao.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        achaBarbearia(marker);
+
+                        Uri uri = Uri.parse("tel:"+barbearia.getTelefone());
+                        Intent intent = new Intent(Intent.ACTION_DIAL,uri);
+
+                        startActivity(intent);
+                    }
+                });
+
                 btnAvaliar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -285,5 +297,34 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
         });
 
+    }
+
+    public void achaBarbearia(Marker marker){
+        for(int i=0; i<listaDeBarbearia.size(); i++){
+            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+            String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";
+
+            LatLng localUsuario = null;
+
+            try {
+                Address endereco = geocoder.getFromLocationName(stringEndereco,1).get(0);
+                localUsuario = new LatLng(endereco.getLatitude(), endereco.getLongitude());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            if(marker.getPosition().equals(localUsuario)){
+                barbearia = listaDeBarbearia.get(i);
+
+                /*
+
+                Intent intent = new Intent(getActivity(), AvaliarBarbeariaActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putSerializable("barbeariaAtual", barbearia);
+                intent.putExtras(bundle);
+                startActivity(intent);
+
+                 */
+            }
+        }
     }
 }
