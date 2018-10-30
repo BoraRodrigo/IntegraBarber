@@ -39,6 +39,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Model.Barbearia;
+import com.projeto.integrador.Model.Barbeiro;
 import com.projeto.integrador.R;
 
 import java.io.IOException;
@@ -60,6 +61,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseAuth autenticacao;
     private TextView txtNomeDaBarbearia;
     private Button btnFacebook, btnLigacao, btnAvaliar;
+
+    private Barbearia barbearia;
 
     //Lista de Barbearia Cadastradas
     private List<Barbearia> listaDeBarbearia= new ArrayList<>();
@@ -170,7 +173,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
-            public boolean onMarkerClick(Marker marker) {
+            public boolean onMarkerClick(final Marker marker) {// Mudou pra final 30/10/2018
                 Toast.makeText(getActivity(),"Você clicou em "+marker.getTitle(), Toast.LENGTH_LONG).show();
 
                 //getActivity().startActivities(new Intent[]{new Intent(getActivity(), InicialBarbeiroActivity.class)});
@@ -190,7 +193,31 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 btnAvaliar.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
                         getActivity().startActivities(new Intent[]{new Intent(getActivity(), AvaliarBarbeariaActivity.class)});
+
+                        for(int i=0; i<listaDeBarbearia.size(); i++){
+                            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                            String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";
+
+                            LatLng localUsuario = null;
+
+                            try {
+                                Address endereco = geocoder.getFromLocationName(stringEndereco,1).get(0);
+                                localUsuario = new LatLng(endereco.getLatitude(), endereco.getLongitude());
+                            } catch (IOException e) {
+                                e.printStackTrace();
+                            }
+                            if(marker.getPosition().equals(localUsuario)){
+                                barbearia = listaDeBarbearia.get(i);
+
+                                Intent intent = new Intent(getActivity(), AvaliarBarbeariaActivity.class);
+                                Bundle bundle = new Bundle();
+                                bundle.putSerializable("barbeariaAtual", barbearia);
+                                intent.putExtras(bundle);
+                                startActivity(intent);
+                            }
+                        }
                     }
                 });
 
