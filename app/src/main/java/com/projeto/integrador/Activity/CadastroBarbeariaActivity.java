@@ -61,7 +61,6 @@ public class CadastroBarbeariaActivity extends AppCompatActivity {
         if(barbeiro == null){
             Log.e("Barbeiro", "precisa ser novo");
             barbeiro = (Barbeiro) bundle.getSerializable("barbeiro");
-            //barbeiro = new Barbeiro();
         }
         else{
             Log.e("Barbeiro atual", barbeiro.getEmail().toString());
