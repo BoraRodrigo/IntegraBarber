@@ -4,6 +4,9 @@ import android.Manifest;
 import android.content.Intent;
 import android.location.Address;
 import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.FragmentManager;
@@ -19,6 +22,8 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -60,7 +65,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private FirebaseAuth autenticacao;
     private TextView txtNomeDaBarbearia;
-    private Button btnFacebook, btnLigacao, btnAvaliar;
+    private ListView lista;
+    //private Button btnFacebook, btnLigacao, btnAvaliar;
 
     private Barbearia barbearia;
 
@@ -174,7 +180,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(final Marker marker) {// Mudou pra final 30/10/2018
-                Toast.makeText(getActivity(),"Você clicou em "+marker.getTitle(), Toast.LENGTH_LONG).show();
+                //Toast.makeText(getActivity(),"Você clicou em "+marker.getTitle(), Toast.LENGTH_LONG).show();
 
                 //getActivity().startActivities(new Intent[]{new Intent(getActivity(), InicialBarbeiroActivity.class)});
 
@@ -186,10 +192,85 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 bottomSheetDialog.show();
 
                 txtNomeDaBarbearia = parentView.findViewById(R.id.txtNomeDaBarbearia);
-                btnFacebook = parentView.findViewById(R.id.btnFacebook);
-                btnLigacao = parentView.findViewById(R.id.btnLigacao);
-                btnAvaliar = parentView.findViewById(R.id.btnAvaliar);
 
+                lista = parentView.findViewById(R.id.listaItens);
+
+                final ArrayList<String> itens = preencherDados();
+
+                ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(getActivity(), android.R.layout.simple_list_item_1, itens);
+                lista.setAdapter(arrayAdapter);
+
+                lista.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> adapterView, View view, int posicao, long l) {
+                        achaBarbearia(marker);
+
+                        if(posicao == 0){ // Visitar Página da Barbearia
+                            //getActivity().startActivities(new Intent[]{new Intent(getActivity(), AvaliarBarbeariaActivity.class)});
+                            Toast.makeText(getContext(), "Funcionalidade Indisponível. Volte Após Futuras Atualizações", Toast.LENGTH_SHORT).show();
+                        }
+                        else if(posicao == 1){ // Avaliações (Ver avaliações das outras pessoas) Obs: Por enquanto está mostrando página que o usuário avalia
+                            getActivity().startActivities(new Intent[]{new Intent(getActivity(), AvaliarBarbeariaActivity.class)});
+
+                            for(int i=0; i<listaDeBarbearia.size(); i++){
+                                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                                String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";
+
+                                LatLng localUsuario = null;
+
+                                try {
+                                    Address endereco = geocoder.getFromLocationName(stringEndereco,1).get(0);
+                                    localUsuario = new LatLng(endereco.getLatitude(), endereco.getLongitude());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                if(marker.getPosition().equals(localUsuario)){
+                                    barbearia = listaDeBarbearia.get(i);
+
+                                    Intent intent = new Intent(getActivity(), AvaliarBarbeariaActivity.class);
+                                    Bundle bundle = new Bundle();
+                                    bundle.putSerializable("barbeariaAtual", barbearia);
+                                    intent.putExtras(bundle);
+                                    startActivity(intent);
+                                }
+                            }
+                        }
+                        else if(posicao == 2){ // Abrir Rota (IR)
+                            //Toast.makeText(getContext(), "Funcionalidade Indisponível. Volte Após Futuras Atualizações", Toast.LENGTH_SHORT).show();
+
+                            for(int i=0; i<listaDeBarbearia.size(); i++){
+                                Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
+                                String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";
+
+                                LatLng localUsuario = null;
+
+                                try {
+                                    Address endereco = geocoder.getFromLocationName(stringEndereco,1).get(0);
+                                    localUsuario = new LatLng(endereco.getLatitude(), endereco.getLongitude());
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                                if(marker.getPosition().equals(localUsuario)){
+                                    barbearia = listaDeBarbearia.get(i);
+
+                                    // Directions
+                                    Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(
+                                        "https://www.google.com/maps/dir/?api=1&destination="+ localUsuario.latitude+", "+ localUsuario.longitude)); // "http://maps.google.com/maps?saddr=51.5, 0.125&daddr=51.5, 0.15"));
+                                    startActivity(intent);
+                                }
+                            }
+
+                            /*
+                            // Default google map
+                            Intent intent2 = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(
+                                    "http://maps.google.com/maps?q=loc:51.5, 0.125"));
+                            startActivity(intent2);*/
+                        }
+                    }
+                });
+
+                /*
+                btnLigacao = parentView.findViewById(R.id.btnLigacao);
                 btnLigacao.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -197,41 +278,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                         Uri uri = Uri.parse("tel:"+barbearia.getTelefone());
                         Intent intent = new Intent(Intent.ACTION_DIAL,uri);
-
                         startActivity(intent);
                     }
-                });
-
-                btnAvaliar.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-
-                        getActivity().startActivities(new Intent[]{new Intent(getActivity(), AvaliarBarbeariaActivity.class)});
-
-                        for(int i=0; i<listaDeBarbearia.size(); i++){
-                            Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-                            String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";
-
-                            LatLng localUsuario = null;
-
-                            try {
-                                Address endereco = geocoder.getFromLocationName(stringEndereco,1).get(0);
-                                localUsuario = new LatLng(endereco.getLatitude(), endereco.getLongitude());
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            if(marker.getPosition().equals(localUsuario)){
-                                barbearia = listaDeBarbearia.get(i);
-
-                                Intent intent = new Intent(getActivity(), AvaliarBarbeariaActivity.class);
-                                Bundle bundle = new Bundle();
-                                bundle.putSerializable("barbeariaAtual", barbearia);
-                                intent.putExtras(bundle);
-                                startActivity(intent);
-                            }
-                        }
-                    }
-                });
+                });*/
 
                 txtNomeDaBarbearia.setText(marker.getTitle());
 
@@ -280,7 +329,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         void onFragmentInteraction(Uri uri);
     }
 
-
     //Lista Barbearias Cadastradas
     public void recuperarBarbearia(){
         barberiaRef.addValueEventListener(new ValueEventListener() {
@@ -302,7 +350,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void achaBarbearia(Marker marker){
         for(int i=0; i<listaDeBarbearia.size(); i++){
             Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-            String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";
+            String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR"; // Só funcionando no Paraná?
 
             LatLng localUsuario = null;
 
@@ -314,17 +362,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             }
             if(marker.getPosition().equals(localUsuario)){
                 barbearia = listaDeBarbearia.get(i);
-
-                /*
-
-                Intent intent = new Intent(getActivity(), AvaliarBarbeariaActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("barbeariaAtual", barbearia);
-                intent.putExtras(bundle);
-                startActivity(intent);
-
-                 */
             }
         }
     }
+
+    private ArrayList<String> preencherDados() {
+        ArrayList<String> dados = new ArrayList<String>();
+        dados.add("Visitar Página da Barbearia");
+        dados.add("Avaliações");
+        dados.add("Abrir Rota");
+        return dados;
+    }
+
 }

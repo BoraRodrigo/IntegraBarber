@@ -5,7 +5,7 @@
     android:id="@+id/bottom_sheet"
     android:layout_width="match_parent"
     android:layout_height="340dp"
-    android:background="@android:color/darker_gray"
+    android:background="@android:color/white"
     android:orientation="vertical"
     android:theme="@android:style/Theme.NoDisplay"
     app:behavior_hideable="true"
@@ -29,48 +29,10 @@
         android:text="bottom_sheet_content"
         android:textColor="@android:color/white">
 
-        <Button
-            android:id="@+id/btnFacebook"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Facebook"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <Button
-            android:id="@+id/btnLigacao"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Ligação"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnFacebook" />
-
-        <Button
-            android:id="@+id/btnAvaliar"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginLeft="8dp"
-            android:layout_marginRight="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="Avaliar Barbearia"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/btnLigacao" />
-
+        <ListView
+            android:id="@+id/listaItens"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
     </android.support.constraint.ConstraintLayout>
 
 </LinearLayout>
