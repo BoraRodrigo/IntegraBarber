@@ -214,7 +214,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                             for(int i=0; i<listaDeBarbearia.size(); i++){
                                 Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-                                String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";
+                                String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - "+listaDeBarbearia.get(i).getEstado();
 
                                 LatLng localUsuario = null;
 
@@ -240,7 +240,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                             for(int i=0; i<listaDeBarbearia.size(); i++){
                                 Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-                                String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";
+                                String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - "+listaDeBarbearia.get(i).getEstado(); //" - PR"
 
                                 LatLng localUsuario = null;
 
@@ -295,7 +295,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             for(int i=0; i<listaDeBarbearia.size(); i++){
                 Barbearia barbearia = new Barbearia();
                 barbearia=listaDeBarbearia.get(i);
-                String stringEndereco=barbearia.getRua()+", "+barbearia.getNumero()+" - "+barbearia.getCidade()+" - PR";
+                String stringEndereco=barbearia.getRua()+", "+barbearia.getNumero()+" - "+barbearia.getCidade()+" - "+listaDeBarbearia.get(i).getEstado();
 
                 List<Address> listaEndereco = geocoder.getFromLocationName(stringEndereco,1);
                 if( listaEndereco != null && listaEndereco.size() > 0 ){
@@ -350,7 +350,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void achaBarbearia(Marker marker){
         for(int i=0; i<listaDeBarbearia.size(); i++){
             Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-            String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR"; // Só funcionando no Paraná?
+            String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - "+listaDeBarbearia.get(i).getEstado(); // Só funcionando no Paraná?
 
             LatLng localUsuario = null;
 

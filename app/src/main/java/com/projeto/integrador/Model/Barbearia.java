@@ -18,6 +18,7 @@ public class Barbearia implements Serializable{
 
     private String rua;
     private String cidade;
+    private String estado;
     private String cep;
     private int numero ;
 
@@ -106,5 +107,13 @@ public class Barbearia implements Serializable{
 
     public void setIdBarbeiro(String idBarbeiro) {
         this.idBarbeiro = idBarbeiro;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

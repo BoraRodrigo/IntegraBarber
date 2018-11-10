@@ -43,6 +43,37 @@
     <string name="ACCOUNT_KIT_CLIENT_TOKEN">[ACCOUNT_KIT_CLIENT_TOKEN]</string>
     <string name="fb_login_protocol_scheme">fb1857129554382336</string> <!-- fb457498868073864 -->
 
+    <string-array name="estados_brasileiros">
+        <item>Estado</item>
+        <item>AC</item>
+        <item>AL</item>
+        <item>AP</item>
+        <item>AM</item>
+        <item>BA</item>
+        <item>CE</item>
+        <item>DF</item>
+        <item>ES</item>
+        <item>GO</item>
+        <item>MA</item>
+        <item>MT</item>
+        <item>MS</item>
+        <item>MG</item>
+        <item>PA</item>
+        <item>PB</item>
+        <item>PR</item>
+        <item>PE</item>
+        <item>PI</item>
+        <item>RJ</item>
+        <item>RN</item>
+        <item>RS</item>
+        <item>RO</item>
+        <item>RR</item>
+        <item>SC</item>
+        <item>SP</item>
+        <item>SE</item>
+        <item>TO</item>
+    </string-array>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
