@@ -22,6 +22,7 @@ public class Cliente {
     }
 
     public Cliente() {
+
     }
     public  void Salvar(){
         DatabaseReference fireReference= ConfiguracaoFirebase.getDatabaseReference();

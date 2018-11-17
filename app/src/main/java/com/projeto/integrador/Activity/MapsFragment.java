@@ -1,37 +1,31 @@
 package com.projeto.integrador.Activity;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
-import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
-import android.support.design.widget.BottomSheetBehavior;
-import android.support.design.widget.BottomSheetDialog;
-import android.support.v4.app.FragmentManager;
-import android.content.Context;
-import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
+import android.support.design.widget.BottomSheetBehavior;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
@@ -42,9 +36,9 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.ValueEventListener;
+
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Model.Barbearia;
-import com.projeto.integrador.Model.Barbeiro;
 import com.projeto.integrador.R;
 
 import java.io.IOException;
@@ -66,7 +60,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private FirebaseAuth autenticacao;
     private TextView txtNomeDaBarbearia;
     private ListView lista;
-    //private Button btnFacebook, btnLigacao, btnAvaliar;
 
     private Barbearia barbearia;
 
@@ -75,7 +68,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private DatabaseReference barberiaRef;
 
     SupportMapFragment mapFragment;
-
 
     private OnFragmentInteractionListener mListener;
 
@@ -100,8 +92,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
 
-        autenticacao= ConfiguracaoFirebase.getAutenticacao();
-
+        autenticacao = ConfiguracaoFirebase.getAutenticacao();
 
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
 
@@ -129,7 +120,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
 
         mapFragment.getMapAsync(this);
-
 
         return v;
     }
@@ -163,16 +153,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap = googleMap;
         mMap.setMapType(GoogleMap.MAP_TYPE_SATELLITE);//Altera o tipo de mapa neste caso satelite
 
-
-        //mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {//Adiciona marcador onde usuario Clicar, este evento é de clique curto pode adicionar um de clique long.
-          //  @Override
-            //public void onMapClick(LatLng latLng) {
-              //  Double latitude= latLng.latitude;//recupera a latiude e a longitude onde o cara cliclou no caso podemos usar para salvar locais no firebase
-                //Double longitude=latLng.longitude;
-               // mMap.addMarker(new MarkerOptions().position(latLng).title("Local"));
-            //}
-        //});
-
         LatLng unifacear = new LatLng(-25.538583, -49.362758);//-25.5385781,-49.3649467,17
         mMap.addMarker(new MarkerOptions().position(unifacear).title("UNIFACEAR"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(unifacear));
@@ -180,8 +160,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(final Marker marker) {// Mudou pra final 30/10/2018
-                //Toast.makeText(getActivity(),"Você clicou em "+marker.getTitle(), Toast.LENGTH_LONG).show();
-
                 //getActivity().startActivities(new Intent[]{new Intent(getActivity(), InicialBarbeiroActivity.class)});
 
                 BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getContext());
@@ -192,7 +170,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                 bottomSheetDialog.show();
 
                 txtNomeDaBarbearia = parentView.findViewById(R.id.txtNomeDaBarbearia);
-
                 lista = parentView.findViewById(R.id.listaItens);
 
                 final ArrayList<String> itens = preencherDados();
@@ -214,7 +191,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                             for(int i=0; i<listaDeBarbearia.size(); i++){
                                 Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
-                                String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - "+listaDeBarbearia.get(i).getEstado();
+                                String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - PR";//+listaDeBarbearia.get(i).getEstado();
 
                                 LatLng localUsuario = null;
 
@@ -227,7 +204,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                                 if(marker.getPosition().equals(localUsuario)){
                                     barbearia = listaDeBarbearia.get(i);
 
-                                    Intent intent = new Intent(getActivity(), AvaliarBarbeariaActivity.class);
+                                    Intent intent = new Intent(getActivity(), VisualizarAvaliacoesActivity.class);
                                     Bundle bundle = new Bundle();
                                     bundle.putSerializable("barbeariaAtual", barbearia);
                                     intent.putExtras(bundle);
@@ -236,8 +213,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                             }
                         }
                         else if(posicao == 2){ // Abrir Rota (IR)
-                            //Toast.makeText(getContext(), "Funcionalidade Indisponível. Volte Após Futuras Atualizações", Toast.LENGTH_SHORT).show();
-
                             for(int i=0; i<listaDeBarbearia.size(); i++){
                                 Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault());
                                 String stringEndereco=listaDeBarbearia.get(i).getRua()+", "+listaDeBarbearia.get(i).getNumero()+" - "+listaDeBarbearia.get(i).getCidade()+" - "+listaDeBarbearia.get(i).getEstado(); //" - PR"
@@ -255,7 +230,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
                                     // Directions
                                     Intent intent = new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(
-                                        "https://www.google.com/maps/dir/?api=1&destination="+ localUsuario.latitude+", "+ localUsuario.longitude)); // "http://maps.google.com/maps?saddr=51.5, 0.125&daddr=51.5, 0.15"));
+                                            "https://www.google.com/maps/dir/?api=1&destination="+ localUsuario.latitude+", "+ localUsuario.longitude)); // "http://maps.google.com/maps?saddr=51.5, 0.125&daddr=51.5, 0.15"));
                                     startActivity(intent);
                                 }
                             }
@@ -293,8 +268,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         Geocoder geocoder = new Geocoder(getContext(), Locale.getDefault() );
         try {
             for(int i=0; i<listaDeBarbearia.size(); i++){
-                Barbearia barbearia = new Barbearia();
-                barbearia=listaDeBarbearia.get(i);
+                Barbearia barbearia = listaDeBarbearia.get(i);
                 String stringEndereco=barbearia.getRua()+", "+barbearia.getNumero()+" - "+barbearia.getCidade()+" - "+listaDeBarbearia.get(i).getEstado();
 
                 List<Address> listaEndereco = geocoder.getFromLocationName(stringEndereco,1);
@@ -335,8 +309,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for(DataSnapshot dados: dataSnapshot.getChildren()){
-                        Barbearia barbearia = dados.getValue(Barbearia.class);
-                        listaDeBarbearia.add(barbearia);
+                    Barbearia barbearia = dados.getValue(Barbearia.class);
+                    listaDeBarbearia.add(barbearia);
                 }
             }
             @Override

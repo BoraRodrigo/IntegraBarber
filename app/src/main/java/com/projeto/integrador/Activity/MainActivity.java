@@ -35,16 +35,14 @@ import com.projeto.integrador.R;
 
 import static com.projeto.integrador.Configuracoes.UsuarioFirebase.getIdentificadoUsuario;
 
-
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth autenticacao;
 
-    int barlogin = 0;
-
     private String[] permissoes = new String[]{
         Manifest.permission.ACCESS_FINE_LOCATION
     };///Lista de permisoes
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,13 +66,26 @@ public class MainActivity extends AppCompatActivity {
 
         //autenticacao.signOut();// Desloga possivel usuariologado na conta (Comentei esta linha para ele entrar automaticamente)
 
+        /*final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();
+        usuReference.child("clientes").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    Cliente c = postSnapshot.getValue(Cliente.class);
+                    Log.e("", c.getEmail());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });*/
+
         setContentView(R.layout.activity_main);
     }
 
     public void  abrirTelaCadastro(View view){
         startActivities(new Intent[]{new Intent(this, CadastroActivity.class)});
     }
-
 
     public void  abrirTelaLogin(View view){
         startActivities(new Intent[]{new Intent(this, LoginActivity.class)});
@@ -85,7 +96,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRestart();
         UsuarioFirebase.redirecionaUsuarioLogado(MainActivity.this);
     }
-
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
@@ -98,6 +108,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
     }
+
     private void alertaValidacaoPermissao(){//Alerta de permissão se caso alguma estiver negada
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("Permissões Negadas");
@@ -111,16 +122,12 @@ public class MainActivity extends AppCompatActivity {
         });
         AlertDialog dialog = builder.create();
         dialog.show();
-
-
     }
 
     public void redirecionaUsuario(){//passa a activy como parametro
         autenticacao= ConfiguracaoFirebase.getAutenticacao();
         final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference();//.child("clientes").child(getIdentificadoUsuario()); //pega o id logado;
         final FirebaseUser user = autenticacao.getCurrentUser();
-
-        //Log.e("o id - ", user.getUid());
 
         usuReference.child("clientes").orderByChild("email").equalTo(user.getEmail()).addValueEventListener(new ValueEventListener() {
             @Override
@@ -134,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
                     finish();
                     break;
                 }
-                if(barbeiroEntra==0){
+                if(barbeiroEntra == 0){
                     Log.e("Barbeiro","Entrou");
                     startActivities(new Intent[]{new Intent(MainActivity.this, InicialBarbeiroActivity.class)});
                     finish();
@@ -147,32 +154,4 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
-
-    public void testeLocaco(){
-        autenticacao= ConfiguracaoFirebase.getAutenticacao();
-        final DatabaseReference usuReference = ConfiguracaoFirebase.getDatabaseReference().child("barbeiro").child(getIdentificadoUsuario()); //pega o id logado;;
-
-        Log.e("xablau","é barbeiro");
-
-        usuReference.addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Barbeiro barbeiro = dataSnapshot.getValue(Barbeiro.class);
-                startActivity(new Intent(MainActivity.this, InicialBarbeiroActivity.class));
-
-                Intent intent = new Intent(MainActivity.this, InicialBarbeiroActivity.class);
-                Bundle bundle = new Bundle();
-                bundle.putSerializable("barbeiro", barbeiro);
-                intent.putExtras(bundle);
-
-                startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });
-    }
-
 }
