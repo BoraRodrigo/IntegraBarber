@@ -225,6 +225,8 @@ public class LoginActivity extends AppCompatActivity {
                             // Sign in success, update UI with the signed-in user's information
                             Log.e("Login com sucesso", "signInWithCredential:success");
                             FirebaseUser user = autenticacao.getCurrentUser();
+
+                            UsuarioFirebase.redirecionaUsuarioLogado(LoginActivity.this);
                             //updateUI(user);
                         } else {
                             // If sign in fails, display a message to the user.
@@ -272,6 +274,8 @@ public class LoginActivity extends AppCompatActivity {
                     // Sign in success, update UI with the signed-in user's information
                     Log.e("Sucesso", "signInWithCredential:success");
                     FirebaseUser user = autenticacao.getCurrentUser();
+
+                    UsuarioFirebase.redirecionaUsuarioLogado(LoginActivity.this);
                     //updateUI(user);
                 } else {
                     // If sign in fails, display a message to the user.

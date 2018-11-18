@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
@@ -20,12 +21,13 @@ import com.projeto.integrador.Model.Cliente;
 import com.projeto.integrador.R;
 
 import java.io.Serializable;
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.List;
 
 public class VisualizarAvaliacoesActivity extends AppCompatActivity {
 
-    private TextView txtNomeBarbearia;
+    private TextView txtNomeBarbearia, txtMedia;
     private ListView listView;
     private Button btnAvaliarBarbearia;
 
@@ -33,12 +35,16 @@ public class VisualizarAvaliacoesActivity extends AppCompatActivity {
 
     private Barbearia barbearia;
 
+    float media = 0;
+    float soma = 0;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_visualizar_avaliacoes);
 
         txtNomeBarbearia = findViewById(R.id.txtNomeBarbearia);
+        txtMedia = findViewById(R.id.txtMedia);
         listView = findViewById(R.id.listView);
         btnAvaliarBarbearia = findViewById(R.id.btnAvaliarBarbearia);
 
@@ -60,6 +66,9 @@ public class VisualizarAvaliacoesActivity extends AppCompatActivity {
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     AvaliarBarbearia ab = postSnapshot.getValue(AvaliarBarbearia.class);
                     listaAvaliacoes.add(ab);
+
+                    soma += ab.getAvaliacao();
+                    mostraMedia(soma, listaAvaliacoes);
                 }
 
                 final ComentariosAdapter ca = new ComentariosAdapter(VisualizarAvaliacoesActivity.this, listaAvaliacoes);
@@ -85,5 +94,12 @@ public class VisualizarAvaliacoesActivity extends AppCompatActivity {
                 finish();
             }
         });
+    }
+
+    public void mostraMedia(float soma, List<AvaliarBarbearia> listaAvaliacoes){
+        media = (soma/listaAvaliacoes.size());
+
+        //Mostra média com 2 números após a vírgula
+        txtMedia.setText("Média: "+new DecimalFormat("#.##").format(media));
     }
 }

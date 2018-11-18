@@ -57,8 +57,8 @@ public class MainActivity extends AppCompatActivity {
         final FirebaseUser user = autenticacao.getCurrentUser();
         if(user != null){
             Log.e("Logado", user.getEmail());
-            redirecionaUsuario();
-            //UsuarioFirebase.redirecionaUsuarioLogado(MainActivity.this);
+            //redirecionaUsuario();
+            UsuarioFirebase.redirecionaUsuarioLogado(MainActivity.this);
         }
         else { // Comentado para não deixar tela em branco enquanto ele não redirecina o usuário
             setContentView(R.layout.activity_main);
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onRestart() {//se caso o usuario já estiver logado ele redireciona automaticamente
         super.onRestart();
+        //redirecionaUsuario();
         UsuarioFirebase.redirecionaUsuarioLogado(MainActivity.this);
     }
 
