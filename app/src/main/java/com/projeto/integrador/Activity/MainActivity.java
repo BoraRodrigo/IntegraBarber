@@ -1,24 +1,19 @@
 package com.projeto.integrador.Activity;
 
 import android.Manifest;
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.net.Uri;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.support.annotation.NonNull;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
-import android.widget.Toast;
+import android.widget.ProgressBar;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -29,30 +24,33 @@ import com.google.firebase.database.ValueEventListener;
 import com.projeto.integrador.Configuracoes.ConfiguracaoFirebase;
 import com.projeto.integrador.Configuracoes.PermissoesMaps;
 import com.projeto.integrador.Configuracoes.UsuarioFirebase;
-import com.projeto.integrador.Model.Barbeiro;
 import com.projeto.integrador.Model.Cliente;
 import com.projeto.integrador.R;
-
-import static com.projeto.integrador.Configuracoes.UsuarioFirebase.getIdentificadoUsuario;
 
 public class MainActivity extends AppCompatActivity {
 
     private FirebaseAuth autenticacao;
+    private ProgressBar progressBar;
 
     private String[] permissoes = new String[]{
         Manifest.permission.ACCESS_FINE_LOCATION
-    };///Lista de permisoes
+    };///Lista de permissões
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
-
         //Validar permissões
         PermissoesMaps.validarPermissoes(permissoes, this, 1);
 
         autenticacao= ConfiguracaoFirebase.getAutenticacao();
+
+        setContentView(R.layout.carregando);
+
+        progressBar = findViewById(R.id.progressBar);
+        //Muda a Cor da Progress Bar que de padrão vem vermelha
+        progressBar.getIndeterminateDrawable().setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_IN);
 
         final FirebaseUser user = autenticacao.getCurrentUser();
         if(user != null){
@@ -80,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });*/
 
-        setContentView(R.layout.activity_main);
     }
 
     public void  abrirTelaCadastro(View view){

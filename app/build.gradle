@@ -1,17 +1,25 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        config {
+            keyAlias 'key0'
+            keyPassword 'integrador'
+            storeFile file('C:/Faculdade/Sexto_Período/keystore.jks')
+            storePassword 'integrador'
+        }
+    }
     compileSdkVersion 28
     defaultConfig {
         //   applicationId "unifacear.integrador.barbearia.integrabarber"
         applicationId "com.projeto.integrador"
-
         minSdkVersion 16
         targetSdkVersion 28
         versionCode 13//Alterando a versão para atualizar google play
         versionName "1.40"
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        signingConfig signingConfigs.config
     }
     lintOptions {//Adiconado Para erro de APK vereficar depois se está ok
         checkReleaseBuilds false
@@ -24,22 +32,20 @@ android {
 
         }
     }
+    productFlavors {
+    }
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(include: ['*.jar'], dir: 'libs')
     implementation 'com.android.support:appcompat-v7:28.0.0-alpha1'
-
     //implementation 'com.android.support:appcompat-v7:27.1.1'
-
-
     implementation 'com.android.support.constraint:constraint-layout:1.1.2'
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.android.support:design:28.0.0-alpha1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
-
     //Dependencias Firebase
     implementation 'com.google.firebase:firebase-core:15.0.0'
     implementation 'com.google.firebase:firebase-database:15.0.0'
@@ -48,7 +54,6 @@ dependencies {
     //implementation 'com.google.firebase:firebase-auth:15.0.0'
     implementation 'com.facebook.android:facebook-android-sdk:[4,5)'
     implementation 'com.facebook.android:account-kit-sdk:4.+'
-
     implementation 'com.android.support:multidex:1.0.3'
 }
 apply plugin: 'com.google.gms.google-services'

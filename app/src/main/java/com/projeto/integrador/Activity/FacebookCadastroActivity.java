@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.RadioButton;
 import android.widget.Switch;
 import android.widget.TextView;
 
@@ -18,9 +19,9 @@ import com.projeto.integrador.R;
 public class FacebookCadastroActivity extends Activity {
 
     private Button btnSalvar;
-    private Switch switchTipousuario;
     private FirebaseAuth autenticacao = ConfiguracaoFirebase.getAutenticacao();
     private TextView txtNome;
+    private RadioButton radioButtonBarbeiro, radioButtonCliente;
 
     FirebaseUser user = autenticacao.getCurrentUser();
 
@@ -31,7 +32,8 @@ public class FacebookCadastroActivity extends Activity {
 
         txtNome = findViewById(R.id.txtNome);
         btnSalvar = findViewById(R.id.btnSalvar);
-        switchTipousuario=findViewById(R.id.switchTipoUsuario);
+        radioButtonBarbeiro = findViewById(R.id.radioButtonBarbeiro);
+        radioButtonCliente = findViewById(R.id.radioButtonCliente);
 
         txtNome.setText("Olá, "+user.getDisplayName());
 
@@ -40,11 +42,14 @@ public class FacebookCadastroActivity extends Activity {
             public void onClick(View v) {
             String tipoUsuario = "";
 
-            if(switchTipousuario.isChecked()){
+            if(radioButtonCliente.isChecked()){
                 tipoUsuario = "C";
             }
-            else{
+            else if(radioButtonBarbeiro.isChecked()){
                 tipoUsuario = "B";
+            }
+            else{
+                tipoUsuario = "";;
             }
 
             if(tipoUsuario.equals("C")){

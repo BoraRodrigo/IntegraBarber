@@ -113,6 +113,8 @@ public class CadastroActivity extends AppCompatActivity{
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
                 Log.e("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
+
+                //4qN8MDmBQKHYYYbolBV15X/7js8=
             }
         } catch (PackageManager.NameNotFoundException e) {
 
